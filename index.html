@@ -403,7 +403,7 @@
             <div id="meals" class="tab-content active">
                 <h2 class="section-title">Meals</h2>
                 
-                <!-- Sezione Suggerimenti Pasti Raymond Peat -->
+                <!-- Sezione Suggerimenti Pasti -->
                 <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; color: white;">
                     <h3 style="margin-bottom: 20px; font-size: 1.5em;">🍊 Pro-Metabolic Food Suggestions</h3>
                     
@@ -531,7 +531,7 @@
             <div id="activities" class="tab-content">
                 <h2 class="section-title">Daily Activities</h2>
                 
-                <!-- Sezione Suggerimenti Attività Raymond Peat -->
+                <!-- Sezione Suggerimenti Attività -->
                 <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; color: #333;">
                     <h3 style="margin-bottom: 20px; font-size: 1.5em; color: #1e40af;">🏃‍♂️ Pro-Metabolic Physical Activity Suggestions</h3>
                     
@@ -545,7 +545,7 @@
                         <label for="activityGoalSelect" style="color: #1e40af; font-weight: 600;">Select a goal:</label>
                         <select id="activityGoalSelect" onchange="showActivitySuggestions()" style="font-size: 1.05em;">
                             <option value="">-- Choose a goal --</option>
-                            <option value="concentric">⛰️ Concentric Exercise (Recommended by Peat)</option>
+                            <option value="concentric">⛰️ Concentric Exercise (Recommended)</option>
                             <option value="strength">💪 Strength and Muscle Mass (Anabolic)</option>
                             <option value="metabolic">🔥 Boost Metabolism Without Stress</option>
                             <option value="flexibility">🧘 Flexibility and Mobility</option>
@@ -864,13 +864,13 @@
                 title: "🚶 Low Impact and Recovery",
                 principle: "Active recovery is essential. Gentle movement promotes circulation, reduces cortisol, supports lymphatic system. AVOID total sedentariness but also excessive stress. Parasympathetic activities, nature, sun, nasal breathing.",
                 activities: [
-                    { name: "Relaxed Walking (Flat)", duration: "30-60 min", reason: "Moderate pace, nasal breathing, possibly outdoors (natural light). Reduces cortisol, improves circulation, lymphatic. Peat emphasizes walking vs running. Better in the morning for sunlight (circadian rhythm). After meals for blood sugar.", benefit: "pro" },
+                    { name: "Relaxed Walking (Flat)", duration: "30-60 min", reason: "Moderate pace, nasal breathing, possibly outdoors (natural light). Reduces cortisol, improves circulation, lymphatic. Walking is preferred over running. Better in the morning for sunlight (circadian rhythm). After meals for blood sugar.", benefit: "pro" },
                     { name: "Gentle Swimming", duration: "20-30 min", reason: "Freestyle or backstroke at a relaxed pace. Zero joint impact, full body movement. IMPORTANT: water not too cold (stress), don't swim fasted. Good for recovery. Avoid intense workouts.", benefit: "pro" },
                     { name: "Light Stationary Bike", duration: "20-30 min", reason: "Minimal resistance, moderate RPM (60-70). While watching TV or reading. Active movement without stress. Good for rest days or recovery from injuries.", benefit: "pro" },
                     { name: "Gardening / Active Household Chores", duration: "30-60 min", reason: "Natural functional movements. Variety of movements: bending, lifting, walking. Outdoors = sun + vitamin D. Productive. Minimal stress. Naturally intermittent.", benefit: "pro" },
-                    { name: "Diaphragmatic Breathing", duration: "10-15 min", reason: "Deep abdominal breathing. Increases CO2 (essential for metabolism according to Peat). Activates parasympathetic. 4 sec inhale (nose), 6-8 sec exhale (mouth). Sitting or lying down. Excellent pre-sleep or during stress.", benefit: "pro" },
+                    { name: "Diaphragmatic Breathing", duration: "10-15 min", reason: "Deep abdominal breathing. Increases CO2 (essential for metabolism). Activates parasympathetic. 4 sec inhale (nose), 6-8 sec exhale (mouth). Sitting or lying down. Excellent pre-sleep or during stress.", benefit: "pro" },
                     { name: "Post-Meal Walk", duration: "10-20 min", reason: "Light walk 15-30 min after main meals. Improves digestion, reduces blood sugar spikes, promotes nutrient absorption. Tradition in many cultures. Nasal breathing.", benefit: "pro" },
-                    { name: "Sun Exposure (Static or Walking)", duration: "15-30 min", reason: "Direct sun on skin (without sunburn). Vitamin D, circadian rhythm, mood. Peat emphasizes the importance of natural light. Morning or late afternoon (less intense). Combine with walking or reading.", benefit: "pro" }
+                    { name: "Sun Exposure (Static or Walking)", duration: "15-30 min", reason: "Direct sun on skin (without sunburn). Vitamin D, circadian rhythm, mood. Natural light is essential. Morning or late afternoon (less intense). Combine with walking or reading.", benefit: "pro" }
                 ]
             },
             avoid: {
@@ -882,8 +882,8 @@
                     { name: "🚫 CrossFit / Excessive HIIT", duration: "-", reason: "If done excessively (>3-4x/week, long sessions). Joint overload, injury risk, chronically elevated cortisol. Rhabdomyolysis. Adrenal exhaustion. MODERATE CrossFit (2x/week, technique focus) can be OK. Excess is the problem.", benefit: "avoid" },
                     { name: "🚫 Fasted Training", duration: "-", reason: "ESSENTIAL: DO NOT train without available carbohydrates. Massively increases cortisol, suppresses T3, catabolizes muscles. The 'burns fat' myth is counterproductive for metabolism. ALWAYS carbs first (juice, fruit, honey).", benefit: "avoid" },
                     { name: "🚫 Overtraining / Too Much Frequency", duration: "-", reason: "Training intensely without adequate recovery. Symptoms: chronic fatigue, sleep disturbances, loss of strength, frequent illness, low T3, high cortisol. You need REST. Less can be more. Quality > quantity.", benefit: "avoid" },
-                    { name: "🚫 Excessive Moderate Cardio", duration: "-", reason: "Treadmill/stationary bike/elliptical for 60-90 min at moderate intensity. Seems harmless but: increases cortisol, hunger (overcalorie compensation), reduces muscle mass, adapts metabolism downward. Peat skeptical of benefits. Better: 20-30 min intense or long relaxed walks.", benefit: "avoid" },
-                    { name: "⚠️ Exclusively Eccentric Exercises", duration: "-", reason: "Excessive emphasis on negative phase (slow descent 5+ seconds, drop sets, negatives). Cause excessive muscle damage, severe DOMS, inflammation, stress. Peat prefers concentric emphasis. Controlled eccentric OK, but not primary focus.", benefit: "avoid" },
+                    { name: "🚫 Excessive Moderate Cardio", duration: "-", reason: "Treadmill/stationary bike/elliptical for 60-90 min at moderate intensity. Seems harmless but: increases cortisol, hunger (overcalorie compensation), reduces muscle mass, adapts metabolism downward. Better: 20-30 min intense or long relaxed walks.", benefit: "avoid" },
+                    { name: "⚠️ Exclusively Eccentric Exercises", duration: "-", reason: "Excessive emphasis on negative phase (slow descent 5+ seconds, drop sets, negatives). Cause excessive muscle damage, severe DOMS, inflammation, stress. Concentric emphasis is preferred. Controlled eccentric OK, but not primary focus.", benefit: "avoid" },
                     { name: "⚠️ Hot Yoga / Bikram", duration: "-", reason: "Excessive thermal stress (40C). Dehydration, cardiovascular stress, elevated cortisol. Risk of syncope. Uncompensated thermal stress can be counterproductive. Normal yoga at room temperature is preferable.", benefit: "avoid" },
                     { name: "⚠️ Excessive Plyometric Jumps", duration: "-", reason: "Box jump, burpees with jump, high volume jump squats. Highly eccentric (landing). Joint stress (knees, ankles). Few and controlled OK. High volume = problematic. Prefer step-up versions.", benefit: "avoid" },
                     { name: "💡 Complete Rest is Essential", duration: "1-2 days/week", reason: "Days of TOTAL rest (or just light walking) are when the body repairs and grows. Don't feel guilty. Recovery is where progress happens. The importance of sleep, relaxation and parasympathetic system is fundamental for results.", benefit: "avoid" }
@@ -932,7 +932,7 @@
                     { name: "White Rice", reason: "Starchy carbs without antinutrients (phytates, lectins) of brown rice. Easily digestible, doesn't cause problematic insulin spikes.", time: "Lunch/Dinner", benefit: "pro" },
                     { name: "Seafood", reason: "Easily digestible protein with essential minerals. Low content of polyunsaturated fats compared to fatty fish. Prefer shellfish and crustaceans.", time: "Lunch/Dinner", benefit: "pro" },
                     { name: "Sea Salt + Baking Soda", reason: "Sodium for cellular energy, baking soda increases CO2 (essential for oxidative metabolism). Adequate CO2 is important for metabolism.", time: "With meals", benefit: "pro" },
-                    { name: "🚫 AVOID: Prolonged Fasting", reason: "Increases cortisol and stress, reduces T3, promotes catabolism. Peat recommends eating frequently (every 3-4 hours) with carbohydrates.", time: "-", benefit: "avoid" }
+                    { name: "🚫 AVOID: Prolonged Fasting", reason: "Increases cortisol and stress, reduces T3, promotes catabolism. Eating frequently (every 3-4 hours) with carbohydrates is recommended.", time: "-", benefit: "avoid" }
                 ]
             },
             liver: {
