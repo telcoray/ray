@@ -1199,57 +1199,261 @@
         //   depletionRisks: other supplements this can deplete (e.g., zinc depletes copper)
         // To add a new supplement, add a new key following the same structure
         const supplementInfo = {
-            "Alpha-Lipoic Acid":          { dosage: "300-600mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Ashwagandha KSM-66":         { dosage: "300-600mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Astaxanthin":                { dosage: "4-12mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "BCAA (2:1:1)":               { dosage: "5-10g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Beta-Alanine":               { dosage: "3.2-6.4g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Biotin (Vitamin B7)":        { dosage: "30-100mcg (RDA) / 5000mcg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Calcium (if necessary)":     { dosage: "1000-1300mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Chlorella":                  { dosage: "3-5g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Chondroitin":                { dosage: "800-1200mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Coenzyme Q10":               { dosage: "100-200mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Creatine Monohydrate":       { dosage: "3-5g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Digestive Enzymes":          { dosage: "1-2 capsules per meal", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Fenugreek":                  { dosage: "500-600mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Glucosamine Sulfate":        { dosage: "1500mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Glutathione":                { dosage: "250-500mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Glycine":                    { dosage: "3-5g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Hydrolyzed Collagen":        { dosage: "10-15g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Hyaluronic Acid":            { dosage: "100-200mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Iron (if deficient)":        { dosage: "18mg (women) / 8-11mg (men)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "L-Arginine":                 { dosage: "3-6g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "L-Glutamine":                { dosage: "5-10g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "L-Theanine":                 { dosage: "100-400mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "L-Tyrosine":                 { dosage: "500-2000mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Lion's Mane (Hericium)":     { dosage: "500-3000mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Magnesium":                  { dosage: "310-420mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Magnesium Bisglycinate":     { dosage: "300-400mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Marine Collagen":            { dosage: "5-10g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Melatonin":                  { dosage: "0.5-5mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "MSM":                        { dosage: "1000-3000mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Multi-strain Probiotics":    { dosage: "10-50 billion CFU", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "NAC (N-Acetyl Cysteine)":    { dosage: "600-1800mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Omega-3 (EPA/DHA)":          { dosage: "1000-2000mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Psyllium Fiber":             { dosage: "5-10g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Quercetin":                  { dosage: "500-1000mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Resveratrol":                { dosage: "150-500mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Rhodiola Rosea":             { dosage: "200-600mg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Selenium":                   { dosage: "55-70mcg (RDA) / 100-200mcg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B1 (Thiamine)":      { dosage: "1.1-1.2mg (RDA) / 50-100mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B2 (Riboflavin)":    { dosage: "1.1-1.4mg (RDA) / 25-100mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B3 (Niacin)":        { dosage: "14-16mg (RDA) / 100-500mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B5 (Pantothenic Acid)": { dosage: "5-6mg (RDA) / 250-500mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B6 (Pyridoxine)":    { dosage: "1.3-2mg (RDA) / 25-100mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B7 (Biotin)":        { dosage: "30-100mcg (RDA) / 5000mcg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B9 (Folic Acid/Methylfolate)": { dosage: "400mcg (RDA) / 400-800mcg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin B12 (Methylcobalamin)": { dosage: "2.4-4mcg (RDA) / 500-1000mcg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin C":                  { dosage: "80-90mg (RDA) / 500-1000mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin D3":                 { dosage: "600-800 IU (RDA) / 1000-4000 IU (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin E (mixed form)":     { dosage: "12-15mg (RDA) / 200-400 IU (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Vitamin K2 (MK-4)":          { dosage: "100-200mcg", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Whey Protein":               { dosage: "20-30g", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] },
-            "Zinc":                       { dosage: "8-14mg (RDA) / 15-30mg (supplements)", positive: [], negative: [], highDoseBenefits: [], depletionRisks: [] }
+            "Alpha-Lipoic Acid": {
+                dosage: "300-600mg",
+                positive: ["Regenerates glutathione and vitamins C/E", "Chelates heavy metals (mercury, lead)", "Supports mitochondrial energy production", "Improves insulin sensitivity"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Ashwagandha KSM-66": {
+                dosage: "300-600mg",
+                positive: ["Reduces cortisol and stress response", "Supports thyroid function (may increase T4)", "Adaptogenic - improves stress resilience", "May support testosterone and DHEA levels"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Astaxanthin": {
+                dosage: "4-12mg",
+                positive: ["Extremely potent fat-soluble antioxidant", "Protects cell membranes from PUFA oxidation", "Reduces inflammation", "Supports skin, eye, and brain health"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "BCAA (2:1:1)": {
+                dosage: "5-10g",
+                positive: ["Reduces muscle protein breakdown during exercise", "Stimulates muscle protein synthesis (leucine)", "May improve exercise performance", "Supports recovery between workouts"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Beta-Alanine": {
+                dosage: "3.2-6.4g",
+                positive: ["Increases muscle carnosine levels", "Buffers lactic acid during exercise", "Improves muscular endurance", "Delays fatigue during high-intensity exercise"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Biotin (Vitamin B7)": {
+                dosage: "30-100mcg (RDA) / 5000mcg (supplements)",
+                positive: ["Supports healthy hair, skin, and nails", "Cofactor for carboxylase enzymes", "Essential for fat and carbohydrate metabolism", "Water-soluble - excess safely excreted"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Calcium (if necessary)": {
+                dosage: "1000-1300mg",
+                positive: ["Essential for bone mineralization", "Supports muscle contraction and nerve signaling", "Required for blood clotting", "Best obtained from dairy (Peat recommends milk)"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Chlorella": {
+                dosage: "3-5g",
+                positive: ["Binds heavy metals supporting detoxification", "Rich in chlorophyll", "Contains vitamins, minerals, and protein", "Supports liver function"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Chondroitin": {
+                dosage: "800-1200mg",
+                positive: ["Maintains cartilage hydration and elasticity", "Reduces joint inflammation", "Inhibits cartilage-degrading enzymes", "Supports joint comfort and mobility"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Coenzyme Q10": {
+                dosage: "100-200mg",
+                positive: ["Essential for mitochondrial ATP production", "Potent fat-soluble antioxidant", "Supports heart muscle function", "Critical if taking statins (which deplete CoQ10)"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Creatine Monohydrate": {
+                dosage: "3-5g",
+                positive: ["Increases cellular ATP for energy and strength", "Most researched ergogenic supplement", "Supports cognitive function and brain energy", "Improves recovery between training sessions"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Digestive Enzymes": {
+                dosage: "1-2 capsules per meal",
+                positive: ["Improves breakdown of proteins, fats, and carbs", "Reduces bloating and post-meal discomfort", "Supports nutrient absorption", "Helpful for those with low stomach acid"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Fenugreek": {
+                dosage: "500-600mg",
+                positive: ["May support healthy testosterone levels", "Helps regulate blood sugar", "Rich in soluble fiber", "Supports bile production and digestion"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Glucosamine Sulfate": {
+                dosage: "1500mg",
+                positive: ["Building block for joint cartilage", "Stimulates chondrocyte activity for cartilage repair", "Mild anti-inflammatory effect in joints", "Supports joint comfort and mobility"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Glutathione": {
+                dosage: "250-500mg",
+                positive: ["Master intracellular antioxidant", "Central to liver detoxification (Phase I and II)", "Protects cells from oxidative damage", "Supports immune function"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Glycine": {
+                dosage: "3-5g",
+                positive: ["Balances methionine - lowers homocysteine (Peat emphasis)", "Calming effect on nervous system via GABA receptors", "Improves deep sleep quality", "Essential for collagen and glutathione synthesis"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Hydrolyzed Collagen": {
+                dosage: "10-15g",
+                positive: ["Provides glycine and proline for collagen synthesis", "Supports joint health and skin elasticity", "Helps maintain gut lining integrity", "Highly bioavailable pre-digested form"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Hyaluronic Acid": {
+                dosage: "100-200mg",
+                positive: ["Maintains skin hydration from within", "Supports synovial fluid in joints", "Promotes wound healing", "Lubricates and cushions joints"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Iron (if deficient)": {
+                dosage: "18mg (women) / 8-11mg (men)",
+                positive: ["Corrects iron-deficiency anemia", "Essential for oxygen transport (hemoglobin)", "Supports cellular energy production", "Only supplement if blood tests confirm deficiency (Peat caution)"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "L-Arginine": {
+                dosage: "3-6g",
+                positive: ["Nitric oxide precursor - improves blood flow", "Supports cardiovascular health", "May improve exercise performance", "Supports wound healing"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "L-Glutamine": {
+                dosage: "5-10g",
+                positive: ["Primary fuel for intestinal cells (enterocytes)", "Repairs and strengthens gut lining", "Reduces intestinal permeability (reduces endotoxin exposure - Peat emphasis)", "Supports immune cell function"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "L-Theanine": {
+                dosage: "100-400mg",
+                positive: ["Promotes relaxation without drowsiness", "Excellent synergy with caffeine - reduces jitteriness", "Supports alpha brain waves (calm focus)", "May reduce cortisol response to stress"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "L-Tyrosine": {
+                dosage: "500-2000mg",
+                positive: ["Precursor to dopamine and norepinephrine", "Supports focus, motivation, and mental clarity", "Precursor to thyroid hormones T3 and T4", "Improves cognitive performance under stress"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Lion's Mane (Hericium)": {
+                dosage: "500-3000mg",
+                positive: ["Stimulates Nerve Growth Factor (NGF)", "Supports cognitive function and memory", "May help with nerve repair and neuropathy", "Neuroprotective properties"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Magnesium": {
+                dosage: "310-420mg",
+                positive: ["Cofactor for 300+ enzymatic reactions", "Activates vitamin D (essential pairing)", "Anti-stress - reduces cortisol and calms nerves", "Regulates calcium balance (Peat emphasis)"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Magnesium Bisglycinate": {
+                dosage: "300-400mg",
+                positive: ["All magnesium benefits plus glycine benefits", "Highly bioavailable form", "Gentle on digestion (less GI upset)", "Particularly good for sleep and relaxation"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Marine Collagen": {
+                dosage: "5-10g",
+                positive: ["Rich in Type I collagen for skin and joints", "Supports skin elasticity and hydration", "Helps maintain gut lining integrity", "Provides glycine and proline"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Melatonin": {
+                dosage: "0.5-5mg",
+                positive: ["Regulates circadian rhythm", "Improves sleep onset", "Antioxidant properties", "May support natural hormone balance"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "MSM": {
+                dosage: "1000-3000mg",
+                positive: ["Bioavailable source of organic sulfur", "Anti-inflammatory - reduces joint pain", "Supports collagen and cartilage synthesis", "May support detoxification pathways"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Multi-strain Probiotics": {
+                dosage: "10-50 billion CFU",
+                positive: ["Rebalances gut microbiome", "Reduces harmful bacteria and endotoxin production (Peat emphasis)", "Supports immune function", "Improves gut barrier integrity"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "NAC (N-Acetyl Cysteine)": {
+                dosage: "600-1800mg",
+                positive: ["Direct precursor to glutathione", "Powerful liver protectant", "Supports heavy metal detoxification", "Mucolytic - thins mucus in respiratory conditions"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Omega-3 (EPA/DHA)": {
+                dosage: "1000-2000mg",
+                positive: ["Reduces inflammation", "Lowers triglycerides", "Supports brain structure (DHA)", "Cardiovascular protection"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Psyllium Fiber": {
+                dosage: "5-10g",
+                positive: ["Soluble fiber - feeds beneficial gut bacteria", "Supports healthy bowel movements", "May help lower cholesterol", "Promotes satiety"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Quercetin": {
+                dosage: "500-1000mg",
+                positive: ["Flavonoid antioxidant", "Anti-inflammatory properties", "Antiviral and immune-supporting", "May reduce histamine release"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Resveratrol": {
+                dosage: "150-500mg",
+                positive: ["Polyphenol antioxidant with anti-aging properties", "Supports cardiovascular health", "Activates sirtuins for cellular repair", "Anti-inflammatory effects"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Rhodiola Rosea": {
+                dosage: "200-600mg",
+                positive: ["Adaptogen - reduces physical and mental fatigue", "Supports stress resilience", "May improve cognitive performance under stress", "Supports endurance and recovery"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Selenium": {
+                dosage: "55-70mcg (RDA) / 100-200mcg (supplements)",
+                positive: ["Essential cofactor for glutathione peroxidase", "Critical for T4 to T3 thyroid conversion (Peat emphasis)", "Protects against mercury toxicity", "Supports immune function"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B1 (Thiamine)": {
+                dosage: "1.1-1.2mg (RDA) / 50-100mg (supplements)",
+                positive: ["Essential for carbohydrate metabolism (glucose to energy)", "Supports nervous system function", "Cofactor for pyruvate dehydrogenase complex", "Supports heart muscle function"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B2 (Riboflavin)": {
+                dosage: "1.1-1.4mg (RDA) / 25-100mg (supplements)",
+                positive: ["Forms FAD and FMN for energy production", "Supports skin, eye, and red blood cell health", "Cofactor in the electron transport chain", "Works synergistically with other B vitamins"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B3 (Niacin)": {
+                dosage: "14-16mg (RDA) / 100-500mg (supplements)",
+                positive: ["Forms NAD+ for cellular energy", "Supports DNA repair", "May improve HDL cholesterol", "Cofactor in hundreds of metabolic reactions"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B5 (Pantothenic Acid)": {
+                dosage: "5-6mg (RDA) / 250-500mg (supplements)",
+                positive: ["Forms Coenzyme A (central to metabolism)", "Essential for steroid hormone synthesis", "Supports adrenal function and stress response", "Required for fatty acid metabolism"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B6 (Pyridoxine)": {
+                dosage: "1.3-2mg (RDA) / 25-100mg (supplements)",
+                positive: ["Cofactor for 100+ enzymatic reactions", "Essential for serotonin, dopamine, GABA synthesis", "Supports immune function", "Important for hemoglobin production"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B7 (Biotin)": {
+                dosage: "30-100mcg (RDA) / 5000mcg (supplements)",
+                positive: ["Supports healthy hair, skin, and nails", "Cofactor for carboxylase enzymes", "Essential for fat and carbohydrate metabolism", "Water-soluble - excess safely excreted"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B9 (Folic Acid/Methylfolate)": {
+                dosage: "400mcg (RDA) / 400-800mcg (supplements)",
+                positive: ["Essential for DNA synthesis and cell division", "Critical during pregnancy (prevents neural tube defects)", "Supports methylation cycle with B12", "Reduces homocysteine levels"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin B12 (Methylcobalamin)": {
+                dosage: "2.4-4mcg (RDA) / 500-1000mcg (supplements)",
+                positive: ["Essential for myelin sheath formation (nerve health)", "Supports DNA synthesis and red blood cell production", "Critical for energy metabolism", "Methylcobalamin is the active, bioavailable form"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin C": {
+                dosage: "80-90mg (RDA) / 500-1000mg (supplements)",
+                positive: ["Potent water-soluble antioxidant", "Essential for collagen synthesis", "Supports immune function", "Regenerates vitamin E (synergistic antioxidants)"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin D3": {
+                dosage: "600-800 IU (RDA) / 1000-4000 IU (supplements)",
+                positive: ["Supports immune system modulation", "Essential for calcium absorption and bone health", "Supports testosterone production", "Anti-inflammatory effects"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin E (mixed form)": {
+                dosage: "12-15mg (RDA) / 200-400 IU (supplements)",
+                positive: ["Fat-soluble antioxidant protecting cell membranes", "Protects against PUFA oxidation (Peat emphasis)", "Anti-inflammatory - reduces inflammatory prostaglandins", "Requirement increases with higher PUFA intake"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Vitamin K2 (MK-4)": {
+                dosage: "100-200mcg",
+                positive: ["Directs calcium into bones (not arteries)", "Prevents arterial calcification", "Essential companion to Vitamin D3", "Supports bone density and reduces fracture risk"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Whey Protein": {
+                dosage: "20-30g",
+                positive: ["Complete amino acid profile", "Highly bioavailable protein source", "Supports muscle protein synthesis", "Contains immunoglobulins for immune support"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            },
+            "Zinc": {
+                dosage: "8-14mg (RDA) / 15-30mg (supplements)",
+                positive: ["Essential for testosterone synthesis", "Supports immune function", "Cofactor for 300+ enzymes", "Supports wound healing and skin health"],
+                negative: [], highDoseBenefits: [], depletionRisks: []
+            }
         };
 
         // Data initialization
