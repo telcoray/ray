@@ -114,7 +114,20 @@
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 1em;
-            transition: border 0.3s;
+            transition: border 0.3s, box-shadow 0.3s;
+            background-color: white;
+        }
+
+        .input-group select,
+        .input-group input[list] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5l3.5 3.5 3.5-3.5' stroke='%23667eea' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+            cursor: pointer;
         }
 
         .input-group input:focus,
@@ -122,6 +135,7 @@
         .input-group select:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
         }
 
         .input-group textarea {
@@ -415,7 +429,7 @@
                     
                     <div class="input-group">
                         <label for="mealGoalSelect" style="color: white;">Select a goal:</label>
-                        <select id="mealGoalSelect" onchange="showMealSuggestions()" style="font-size: 1.05em;">
+                        <select id="mealGoalSelect" onchange="showMealSuggestions()">
                             <option value="">-- Choose a goal --</option>
                             <option value="thyroid">🦋 Supporting Thyroid and Metabolism</option>
                             <option value="antiinflammatory">🔥 Reducing Inflammation</option>
@@ -470,7 +484,7 @@
                     
                     <div class="input-group">
                         <label for="supplementGoalSelect" style="color: white;">Select a goal:</label>
-                        <select id="supplementGoalSelect" onchange="showSupplementSuggestions()" style="font-size: 1.05em;">
+                        <select id="supplementGoalSelect" onchange="showSupplementSuggestions()">
                             <option value="">-- Choose a goal --</option>
                             <option value="sleep">😴 Improve sleep</option>
                             <option value="energy">⚡ Increase energy</option>
@@ -544,7 +558,7 @@
                     
                     <div class="input-group">
                         <label for="activityGoalSelect" style="color: #1e40af; font-weight: 600;">Select a goal:</label>
-                        <select id="activityGoalSelect" onchange="showActivitySuggestions()" style="font-size: 1.05em;">
+                        <select id="activityGoalSelect" onchange="showActivitySuggestions()">
                             <option value="">-- Choose a goal --</option>
                             <option value="concentric">⛰️ Concentric Exercise (Recommended)</option>
                             <option value="strength">💪 Strength and Muscle Mass (Anabolic)</option>
@@ -1075,7 +1089,7 @@
                 synergy: "💡 COMPLETE SYNERGY: Vitamin D3 + Vitamin K2 + Magnesium + Calcium must ALWAYS be taken together! D3 increases calcium absorption, K2 directs calcium into bones (and out of arteries), magnesium activates vitamin D and regulates calcium. Without K2, D3 can cause arterial calcification!",
                 supplements: [
                     { name: "Vitamin D3", dosage: "2000-4000 IU", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Essential for calcium absorption and bone mineralization. Take with fats. Can accumulate, so monitor blood levels.", synergy: true, solubility: "lipo" },
-                    { name: "Vitamin K2 (MK-7)", dosage: "100-200mcg", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Directs calcium into bones and out of arteries. ESSENTIAL with vitamin D! Take together with fats.", synergy: true, solubility: "lipo" },
+                    { name: "Vitamin K2 (MK-4)", dosage: "100-200mcg", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Directs calcium into bones and out of arteries. ESSENTIAL with vitamin D! Take together with fats.", synergy: true, solubility: "lipo" },
                     { name: "Magnesium", dosage: "300-400mg", time: "Evening", notes: "Essential cofactor for bone health and vitamin D activation.", synergy: true },
                     { name: "Calcium (if necessary)", dosage: "500-1000mg", time: "During meals", notes: "Prefer dietary sources. If supplementing, divide into multiple doses and ALWAYS with D3+K2.", synergy: true }
                 ]
