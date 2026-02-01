@@ -497,7 +497,8 @@
                 
                 <div class="input-group">
                     <label for="supplementName">Supplement name</label>
-                    <input type="text" id="supplementName" placeholder="E.g., Vitamin D">
+                    <input type="text" id="supplementName" placeholder="E.g., Vitamin D" list="supplementNameList">
+                    <datalist id="supplementNameList"></datalist>
                 </div>
 
                 <div class="input-group">
@@ -1984,9 +1985,19 @@
             updateStats();
         }
 
+        function populateSupplementNames() {
+            const names = new Set();
+            Object.values(supplementDatabase).forEach(category => {
+                category.supplements.forEach(s => names.add(s.name));
+            });
+            const datalist = document.getElementById('supplementNameList');
+            datalist.innerHTML = [...names].sort().map(name => `<option value="${name}">`).join('');
+        }
+
         updateDate();
         loadData();
         updateStats();
+        populateSupplementNames();
 
     </script>
 </body>
