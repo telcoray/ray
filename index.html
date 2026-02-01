@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine Organizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .date-display {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .item-list {
+            margin-top: 20px;
+        }
+
+        .item {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .item-details {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 10px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .goal-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .goal-card .item-title {
+            color: white;
+        }
+
+        .goal-card .item-details {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .meal-time-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #667eea;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .supplement-card {
+            transition: all 0.3s;
+        }
+
+        .supplement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .supplement-card.completed {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            header > div {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header > div > div:first-child,
+            header > div > div:last-child {
+                flex: 0;
+            }
+
+            tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                min-width: 100%;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-actions {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+                <div style="flex: 1;"></div>
+                <div style="text-align: center; flex: 2;">
+                    <h1 id="appTitle">🌟 My Daily Routine</h1>
+                    <div class="date-display" id="currentDate"></div>
+                </div>
+                <div style="flex: 1;"></div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('meals')">🍽️ Meals</button>
+            <button class="tab-button" onclick="switchTab('supplements')">💊 Supplements</button>
+            <button class="tab-button" onclick="switchTab('activities')">📋 Activities</button>
+            <button class="tab-button" onclick="switchTab('goals')">🎯 Goals</button>
+            <button class="tab-button" onclick="switchTab('overview')">📊 Overview</button>
+        </div>
+
+        <div class="content">
+            <!-- Tab Pasti -->
+            <div id="meals" class="tab-content active">
+                <h2 class="section-title">Meals</h2>
+                
+                <!-- Sezione Suggerimenti Pasti Raymond Peat -->
+                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; color: white;">
+                    <h3 style="margin-bottom: 20px; font-size: 1.5em;">🍊 Pro-Metabolic Food Suggestions</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <p style="line-height: 1.6; font-size: 1.05em;">
+                            <strong>Approach:</strong> Support metabolism by optimizing mitochondrial energy production, reducing oxidative stress, and minimizing anti-metabolic substances. Focus on easily digestible foods that support thyroid function and reduce inflammation.
+                        </p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="mealGoalSelect" style="color: white;">Select a goal:</label>
+                        <select id="mealGoalSelect" onchange="showMealSuggestions()" style="font-size: 1.05em;">
+                            <option value="">-- Choose a goal --</option>
+                            <option value="thyroid">🦋 Supporting Thyroid and Metabolism</option>
+                            <option value="antiinflammatory">🔥 Reducing Inflammation</option>
+                            <option value="energy">⚡ Increasing Energy (Pro-Metabolic)</option>
+                            <option value="liver">🫀 Supporting Liver and Detox</option>
+                            <option value="stress">😌 Reducing Stress and Cortisol</option>
+                            <option value="hormones">💪 Hormonal Balance</option>
+                            <option value="digestion">🍃 Improving Digestion</option>
+                            <option value="avoid">⛔ Foods to Avoid or Limit</option>
+                        </select>
+                    </div>
+
+                    <div id="mealSuggestions" style="margin-top: 20px;"></div>
+                </div>
+
+                <h3 style="color: #667eea; margin-bottom: 20px;">My Meals</h3>
+                
+                <div class="input-group">
+                    <label for="mealTime">Time of day</label>
+                    <select id="mealTime">
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Morning Snack">Morning Snack</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Afternoon Snack">Afternoon Snack</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Evening Snack">Evening Snack</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="mealName">Meal name</label>
+                    <input type="text" id="mealName" placeholder="E.g., Pasta with tomato sauce">
+                </div>
+
+                <div class="input-group">
+                    <label for="mealNotes">Notes (optional)</label>
+                    <textarea id="mealNotes" placeholder="Calories, macronutrients, ingredients..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="addMeal()">➕ Add Meal</button>
+
+                <div class="item-list" id="mealsList"></div>
+            </div>
+
+            <!-- Tab Integratori -->
+            <div id="supplements" class="tab-content">
+                <h2 class="section-title">Supplements</h2>
+                
+                <!-- Sezione Suggerimenti -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; color: white;">
+                    <h3 style="margin-bottom: 20px; font-size: 1.5em;">💡 Supplement Suggestions for Your Goals</h3>
+                    
+                    <div class="input-group">
+                        <label for="supplementGoalSelect" style="color: white;">Select a goal:</label>
+                        <select id="supplementGoalSelect" onchange="showSupplementSuggestions()" style="font-size: 1.05em;">
+                            <option value="">-- Choose a goal --</option>
+                            <option value="sleep">😴 Improve sleep</option>
+                            <option value="energy">⚡ Increase energy</option>
+                            <option value="focus">🧠 Improve focus and memory</option>
+                            <option value="immunity">🛡️ Strengthen immune system</option>
+                            <option value="detox">🌿 Detoxification (mercury, heavy metals)</option>
+                            <option value="bones">🦴 Bone health</option>
+                            <option value="joints">🦵 Joint health</option>
+                            <option value="heart">❤️ Cardiovascular health</option>
+                            <option value="muscle">💪 Muscle growth and recovery</option>
+                            <option value="stress">😌 Reduce stress and anxiety</option>
+                            <option value="skin">✨ Improve skin, hair and nails</option>
+                            <option value="digestion">🍃 Improve digestion</option>
+                            <option value="testosterone">🔥 Natural testosterone support</option>
+                            <option value="antioxidant">🍇 Antioxidant protection</option>
+                            <option value="vitaminb">💊 Vitamin B Complex (Energy and Nervous System)</option>
+                        </select>
+                    </div>
+
+                    <div id="supplementSuggestions" style="margin-top: 20px;"></div>
+                </div>
+
+                <h3 style="color: #667eea; margin-bottom: 20px;">My Supplements</h3>
+                
+                <div class="input-group">
+                    <label for="supplementName">Supplement name</label>
+                    <input type="text" id="supplementName" placeholder="E.g., Vitamin D">
+                </div>
+
+                <div class="input-group">
+                    <label for="supplementDosage">Dosage</label>
+                    <input type="text" id="supplementDosage" placeholder="E.g., 2000 IU">
+                </div>
+
+                <div class="input-group">
+                    <label for="supplementTime">When to take</label>
+                    <select id="supplementTime">
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                        <option value="Evening">Evening</option>
+                        <option value="Before meals">Before meals</option>
+                        <option value="During meals">During meals</option>
+                        <option value="After meals">After meals</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="supplementNotes">Notes (optional)</label>
+                    <textarea id="supplementNotes" placeholder="Purpose, effects, precautions..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="addSupplement()">➕ Add Supplement</button>
+
+                <div class="item-list" id="supplementsList"></div>
+            </div>
+
+            <!-- Tab Attività -->
+            <div id="activities" class="tab-content">
+                <h2 class="section-title">Daily Activities</h2>
+                
+                <!-- Sezione Suggerimenti Attività Raymond Peat -->
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 25px; border-radius: 15px; margin-bottom: 30px; color: #333;">
+                    <h3 style="margin-bottom: 20px; font-size: 1.5em; color: #1e40af;">🏃‍♂️ Pro-Metabolic Physical Activity Suggestions</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <p style="line-height: 1.6; font-size: 1.05em;">
+                            <strong>Approach:</strong> Exercise should be ANABOLIC, not catabolic. Avoid excessive stress that increases cortisol and reduces T3. Prefer: concentric movements (uphill), brief and intense weights, gentle stretching. AVOID: prolonged cardio, running on hard surfaces, fasted exercise, overtraining.
+                        </p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="activityGoalSelect" style="color: #1e40af; font-weight: 600;">Select a goal:</label>
+                        <select id="activityGoalSelect" onchange="showActivitySuggestions()" style="font-size: 1.05em;">
+                            <option value="">-- Choose a goal --</option>
+                            <option value="concentric">⛰️ Concentric Exercise (Recommended by Peat)</option>
+                            <option value="strength">💪 Strength and Muscle Mass (Anabolic)</option>
+                            <option value="metabolic">🔥 Boost Metabolism Without Stress</option>
+                            <option value="flexibility">🧘 Flexibility and Mobility</option>
+                            <option value="lowimpact">🚶 Low Impact and Recovery</option>
+                            <option value="avoid">⛔ Activities to Avoid or Limit</option>
+                        </select>
+                    </div>
+
+                    <div id="activitySuggestions" style="margin-top: 20px;"></div>
+                </div>
+
+                <h3 style="color: #667eea; margin-bottom: 20px;">My Activities</h3>
+                
+                <div class="input-group">
+                    <label for="activityName">Activity name</label>
+                    <input type="text" id="activityName" placeholder="E.g., Gym workout">
+                </div>
+
+                <div class="input-group">
+                    <label for="activityTime">Time</label>
+                    <input type="time" id="activityTime">
+                </div>
+
+                <div class="input-group">
+                    <label for="activityDuration">Duration (minutes)</label>
+                    <input type="number" id="activityDuration" placeholder="E.g., 60">
+                </div>
+
+                <div class="input-group">
+                    <label for="activityNotes">Notes (optional)</label>
+                    <textarea id="activityNotes" placeholder="Details, exercises, goals..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="addActivity()">➕ Add Activity</button>
+
+                <div class="item-list" id="activitiesList"></div>
+            </div>
+
+            <!-- Tab Obiettivi -->
+            <div id="goals" class="tab-content">
+                <h2 class="section-title">Goals</h2>
+                
+                <div class="input-group">
+                    <label for="goalTitle">Goal title</label>
+                    <input type="text" id="goalTitle" placeholder="E.g., Lose 10 lbs">
+                </div>
+
+                <div class="input-group">
+                    <label for="goalType">Type</label>
+                    <select id="goalType">
+                        <option value="Short term">Short term (1-4 weeks)</option>
+                        <option value="Medium term">Medium term (1-6 months)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="goalDeadline">Deadline</label>
+                    <input type="date" id="goalDeadline">
+                </div>
+
+                <div class="input-group">
+                    <label for="goalDescription">Description</label>
+                    <textarea id="goalDescription" placeholder="Describe your goal and how you plan to achieve it..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="addGoal()">➕ Add Goal</button>
+
+                <div class="item-list" id="goalsList"></div>
+            </div>
+
+            <!-- Tab Panoramica -->
+            <div id="overview" class="tab-content">
+                <h2 class="section-title">Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="statMeals">0</div>
+                        <div class="stat-label">Planned meals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statSupplements">0</div>
+                        <div class="stat-label">Supplements</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statActivities">0</div>
+                        <div class="stat-label">Activities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statGoals">0</div>
+                        <div class="stat-label">Active goals</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px; color: #667eea;">Daily summary</h3>
+                <div id="overviewContent" style="margin-top: 20px;"></div>
+                
+                <!-- Sezione Scienza e Ricerca -->
+                <div style="margin-top: 40px; padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px;">🔬 Science and Research</h3>
+                    <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; line-height: 1.8;">
+                        <p style="margin-bottom: 15px;">
+                            The dietary suggestions, supplements, and physical activity recommendations in this application are based on the research and discoveries of <strong>Dr. Raymond Peat, PhD</strong>, a pioneering biologist and physiologist in the study of metabolism, hormones, and nutrition.
+                        </p>
+                        <p style="margin-bottom: 15px;">
+                            Dr. Peat dedicated over 50 years to research on optimizing cellular energy metabolism, with particular attention to:
+                        </p>
+                        <ul style="margin-left: 20px; margin-bottom: 15px;">
+                            <li>✅ Thyroid function and mitochondrial energy production</li>
+                            <li>✅ Effects of polyunsaturated fatty acids (PUFA) on metabolism</li>
+                            <li>✅ Hormonal balance (progesterone, estrogen, cortisol, testosterone)</li>
+                            <li>✅ Role of simple carbohydrates in reducing metabolic stress</li>
+                            <li>✅ Importance of CO2, glycine and gelatin</li>
+                            <li>✅ Concentric vs eccentric exercise and their effects on cortisol</li>
+                        </ul>
+                        <p style="margin-bottom: 15px;">
+                            His theories, while sometimes controversial compared to mainstream nutrition, are supported by extensive scientific literature and decades of clinical observations. Dr. Peat's work represents a holistic approach to health that emphasizes:
+                        </p>
+                        <ul style="margin-left: 20px; margin-bottom: 15px;">
+                            <li>🔸 Efficient oxidative metabolism as the foundation of health</li>
+                            <li>🔸 Reduction of stress (cortisol, lactic acid, endotoxins)</li>
+                            <li>🔸 Support for thyroid function as the main regulator</li>
+                            <li>🔸 Easily digestible and pro-metabolic foods</li>
+                            <li>🔸 Stable saturated fats vs unstable polyunsaturated fats</li>
+                        </ul>
+                        <p style="margin-bottom: 0;">
+                            <strong>Disclaimer:</strong> This application provides educational information based on Dr. Peat's research. Always consult a qualified healthcare professional before making significant changes to diet, supplementation, or physical activity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'en';
+
+        const translations = {
+            it: {},
+            en: {
+                appTitle: "🌟 My Daily Routine",
+                tabs: {
+                    meals: "🍽️ Meals",
+                    supplements: "💊 Supplements",
+                    activities: "📋 Activities",
+                    goals: "🎯 Goals",
+                    overview: "📊 Overview"
+                },
+                mealsSuggestions: {
+                    title: "🍊 Pro-Metabolic Food Suggestions",
+                    approach: "Approach:",
+                    approachText: "Support metabolism by optimizing mitochondrial energy production, reducing oxidative stress, and minimizing anti-metabolic substances. Focus on easily digestible foods that support thyroid function and reduce inflammation.",
+                    selectGoal: "Select a goal:",
+                    chooseGoal: "-- Choose a goal --"
+                },
+                mealsSection: {
+                    title: "My Meals",
+                    mealTime: "Time of day",
+                    mealName: "Meal name",
+                    mealNamePlaceholder: "E.g., Pasta with tomato sauce",
+                    mealNotes: "Notes (optional)",
+                    mealNotesPlaceholder: "Calories, macronutrients, ingredients...",
+                    addButton: "➕ Add Meal",
+                    emptyState: "No meals planned. Start adding one!"
+                },
+                supplementsSuggestions: {
+                    title: "💡 Supplement Suggestions for Your Goals",
+                    selectGoal: "Select a goal:",
+                    chooseGoal: "-- Choose a goal --"
+                },
+                supplementsSection: {
+                    title: "My Supplements",
+                    name: "Supplement name",
+                    namePlaceholder: "E.g., Vitamin D",
+                    dosage: "Dosage",
+                    dosagePlaceholder: "E.g., 2000 IU",
+                    time: "When to take",
+                    notes: "Notes (optional)",
+                    notesPlaceholder: "Purpose, effects, precautions...",
+                    addButton: "➕ Add Supplement",
+                    emptyState: "No supplements registered. Add one!"
+                },
+                activitiesSuggestions: {
+                    title: "🏃‍♂️ Pro-Metabolic Physical Activity Suggestions",
+                    approach: "Approach:",
+                    approachText: "Exercise should be ANABOLIC, not catabolic. Avoid excessive stress that increases cortisol and reduces T3. Prefer: concentric movements (uphill), brief and intense weights, gentle stretching. AVOID: prolonged cardio, running on hard surfaces, fasted exercise, overtraining.",
+                    selectGoal: "Select a goal:",
+                    chooseGoal: "-- Choose a goal --"
+                },
+                activitiesSection: {
+                    title: "My Activities",
+                    name: "Activity name",
+                    namePlaceholder: "E.g., Gym workout",
+                    time: "Time",
+                    duration: "Duration (minutes)",
+                    durationPlaceholder: "E.g., 60",
+                    notes: "Notes (optional)",
+                    notesPlaceholder: "Details, exercises, goals...",
+                    addButton: "➕ Add Activity",
+                    emptyState: "No activities planned. Start planning!"
+                },
+                goalsSection: {
+                    title: "Goals",
+                    goalTitle: "Goal title",
+                    goalTitlePlaceholder: "E.g., Lose 10 lbs",
+                    type: "Type",
+                    typeShort: "Short term (1-4 weeks)",
+                    typeMedium: "Medium term (1-6 months)",
+                    deadline: "Deadline",
+                    description: "Description",
+                    descriptionPlaceholder: "Describe your goal and how you plan to achieve it...",
+                    addButton: "➕ Add Goal",
+                    emptyState: "No goals set. Define your targets!",
+                    progress: "Progress:",
+                    deleteButton: "Delete"
+                },
+                overview: {
+                    title: "Overview",
+                    meals: "Planned meals",
+                    supplements: "Supplements",
+                    activities: "Activities",
+                    goals: "Active goals",
+                    dailySummary: "Daily summary",
+                    mealsToEat: "🍽️ Meals to eat",
+                    supplementsToTake: "💊 Supplements to take",
+                    activitiesToDo: "📋 Activities to complete",
+                    allDone: "All done for today!",
+                    scienceTitle: "🔬 Science and Research",
+                    scienceIntro: "The dietary suggestions, supplements, and physical activity recommendations in this application are based on the research and discoveries of",
+                    scienceYears: "Dr. Peat dedicated over 50 years to research on optimizing cellular energy metabolism, with particular attention to:",
+                    scienceTheories: "His theories, while sometimes controversial compared to mainstream nutrition, are supported by extensive scientific literature and decades of clinical observations. Dr. Peat's work represents a holistic approach to health that emphasizes:",
+                    disclaimer: "Disclaimer:",
+                    disclaimerText: "This application provides educational information based on Dr. Peat's research. Always consult a qualified healthcare professional before making significant changes to diet, supplementation, or physical activity."
+                },
+                common: {
+                    add: "Add",
+                    delete: "Delete",
+                    confirm: "Are you sure you want to delete this item?",
+                    added: "added",
+                    addedTo: "to your list",
+                    scientificPrinciple: "📚 Scientific Principle:",
+                    note: "⚠️ Note:",
+                    noteActivity: "These suggestions are based on scientific research on metabolic optimization. Always consult a healthcare professional before starting a new exercise program, especially if you have medical conditions or injuries.",
+                    noteMeal: "These suggestions are based on scientific research on metabolic optimization. Always consult a healthcare professional before making significant dietary changes, especially if you have medical conditions.",
+                    synergy: "💡 SYNERGY",
+                    synergyAll: "🔗 Add ALL synergistic supplements"
+                },
+                times: {
+                    morning: "Morning",
+                    morningSnack: "Morning Snack",
+                    lunch: "Lunch",
+                    afternoonSnack: "Afternoon Snack",
+                    dinner: "Dinner",
+                    eveningSnack: "Evening Snack",
+                    breakfast: "Breakfast",
+                    afternoon: "Afternoon",
+                    evening: "Evening",
+                    beforeMeals: "Before meals",
+                    duringMeals: "During meals",
+                    afterMeals: "After meals",
+                    anytime: "Anytime"
+                }
+            }
+        };
+
+        // Activity database - Pro-Metabolic Approach
+        const activityDatabase = {
+            concentric: {
+                title: "⛰️ Concentric Exercise - HIGHLY RECOMMENDED",
+                principle: "CONCENTRIC exercises (muscle contraction that shortens the muscle) are ANABOLIC and reduce lactic acid production. Eccentric exercise (lengthening under load) causes micro-trauma, inflammation, oxidative stress and increases cortisol. UPHILL WALKING is the perfect example: concentric movement, low impact, improves strength without damaging tissues.",
+                activities: [
+                    { name: "Uphill Walking (Treadmill or Hill)", duration: "20-45 min", reason: "THE MOST RECOMMENDED EXERCISE. Fully concentric (muscles contract only in shortening). Increases leg/glute strength without excessive cortisol. Incline 10-15%. Nasal breathing. DO NOT run - walk. Benefits: improves mitochondria, circulation, muscle tone without inflammation.", benefit: "best" },
+                    { name: "Stationary Bike with Moderate Resistance", duration: "20-30 min", reason: "Concentric leg movement. Occasionally standing while pedaling increases the concentric effect. Low joint impact. Good for those with knee problems. Moderate RPM (60-80), focus on resistance not speed.", benefit: "pro" },
+                    { name: "Rowing Machine (Push Phase)", duration: "15-20 min", reason: "The leg push phase is concentric. Full body, low impact. IMPORTANT: focus on explosive leg push, slow and controlled return. Avoid back hyperextension.", benefit: "pro" },
+                    { name: "Aerobic Step (Uphill Only)", duration: "15-25 min", reason: "Stepping up is concentric. IMPORTANT: step up normally, step down very slowly and controlled (reduce eccentric component). Moderate step height (15-20cm). Alternate starting leg.", benefit: "pro" },
+                    { name: "Climbing Stairs (Avoid Fast Descent)", duration: "10-20 min", reason: "Climbing = pure concentric. Glutes, quadriceps, heart. ESSENTIAL: take elevator down or descend very slowly. Fast descent is eccentric and harmful to knees. Climb at a sustained but sustainable pace.", benefit: "pro" },
+                    { name: "Elliptical (Ramp Setting)", duration: "20-30 min", reason: "With inclined ramp simulates climbing = more concentric. Fluid movement, zero impact. Moderate resistance, avoid excessive speed. Focus on pushing, not pulling.", benefit: "pro" }
+                ]
+            },
+            strength: {
+                title: "💪 Strength and Muscle Mass (Anabolic Approach)",
+                principle: "Effective weight training requires: short duration, high intensity, adequate recovery. AVOID: endless sets, extreme failure, excessive volume (they increase cortisol). PREFER: compound exercises, 3-5 sets, 5-8 reps, focus on explosive concentric phase, controlled but not emphasized eccentric. Peri-workout nutrition is essential (carbs + salt).",
+                activities: [
+                    { name: "Squat (Focus on Concentric Phase)", duration: "20-30 min", reason: "King of exercises. Explosive ascent (concentric), controlled descent 2-3 sec (limit eccentric stress). 3-5 sets x 5-8 reps. Moderate-high weight. DO NOT always go to failure. Rest 3-4 min between sets. Drink sugar + salt during.", benefit: "pro" },
+                    { name: "Conventional Deadlift", duration: "20-30 min", reason: "Fully concentric - you lift the weight from the ground. Activates full posterior chain. 3-4 sets x 5 reps. Perfect form > max weight. Avoid Romanian deadlifts (too eccentric). Carbs before and after.", benefit: "pro" },
+                    { name: "Bench Press", duration: "20-30 min", reason: "Explosive push (concentric), controlled descent. 3-5 sets x 6-8 reps. Don't overly emphasize the negative phase. Adequate rest. Variations: dumbbells (safer for shoulders), incline.", benefit: "pro" },
+                    { name: "Military Press / Overhead Press", duration: "15-25 min", reason: "Vertical concentric push. Deltoids, triceps, core. 3-4 sets x 6-8 reps. Seated if lower back problems. Don't overdo weight (shoulders are delicate).", benefit: "pro" },
+                    { name: "Pull-ups (Assisted if Necessary)", duration: "15-20 min", reason: "Concentric pull (ascent). If too difficult: use resistance band assistance or lat pulldown machine. 3-5 sets x 5-10 reps. Focus on lat activation, not arms.", benefit: "pro" },
+                    { name: "⚠️ General Weight Training Approach", duration: "30-45 min total", reason: "KEY RULES: 1) Short sessions (30-45 min max), 2) Focus on compounds (squat, deadlift, bench, overhead, pull-ups), 3) Adequate rest (at least 1 day between same muscle group sessions), 4) DO NOT train fasted - carbs first, 5) Sugar + salt during workout, 6) Carbs + protein after, 7) Avoid cardio after weights (increases cortisol).", benefit: "pro" }
+                ]
+            },
+            metabolic: {
+                title: "🔥 Boost Metabolism Without Stress",
+                principle: "Exercise for metabolism must SUPPORT thyroid function, not suppress it. Avoid prolonged activities that increase cortisol (>45 min continuous cardio). Prefer: short and intense movements, concentric exercises, with adequate peri-workout carbs. Metabolism improves with muscle mass, not excessive cardio.",
+                activities: [
+                    { name: "Concentric HIIT (15 min)", duration: "15 min", reason: "Short intervals (20-30 sec sprint, 60-90 sec recovery). 6-8 rounds. IMPORTANT: on stationary bike/inclined treadmill/rowing machine. NO running on asphalt (eccentric). With carbs before (orange juice + salt). Boosts metabolism 24-48h post. Maximum 2-3x/week.", benefit: "pro" },
+                    { name: "Circuit Training (20-30 min)", duration: "20-30 min", reason: "6-8 bodyweight or light weight exercises. 30-45 sec work, 15-30 sec rest. 3-4 rounds. Examples: squat jump, push-up, mountain climber, kettlebell swing. Keeps heart rate high without excessive duration. Sugar available during.", benefit: "pro" },
+                    { name: "Uphill Sprints (Short)", duration: "15-20 min", reason: "6-10 sprints of 10-20 seconds on hill/very inclined treadmill. Full recovery (2-3 min walking). Fully concentric. Stimulates anabolic hormones (GH, testosterone) without excessive cortisol. Abundant carbs after.", benefit: "pro" },
+                    { name: "High Frequency Weight Training", duration: "25-35 min", reason: "Full-body 3x/week. Compound exercises, moderate reps (8-12), short rest (60-90 sec). Stimulates protein synthesis and basal metabolism. Key: consistency, not maximal intensity every time.", benefit: "pro" },
+                    { name: "Modified Tabata (Concentric)", duration: "12-16 min", reason: "Tabata protocol: 20 sec all-out, 10 sec rest x 8 rounds = 4 min. Repeat 2-4 exercises. Concentric exercises: stationary bike, step climb, modified burpees (jump up only). Powerful metabolic stimulus. Max 2x/week.", benefit: "pro" },
+                    { name: "💡 Peri-Workout Nutrition", duration: "Before/During/After", reason: "ESSENTIAL to avoid stress response: BEFORE (30-60 min): orange juice + salt, banana. DURING: sip water + sugar + salt. AFTER (within 30 min): simple carbs + protein (milk + honey, ice cream, fruit + eggs). DO NOT train fasted (cortisol)", benefit: "pro" }
+                ]
+            },
+            flexibility: {
+                title: "🧘 Flexibility and Mobility",
+                principle: "Excessive stretching can cause joint instability. Recommended approach: gentle and controlled movements, functional mobility, breathing. AVOID: ballistic stretching, extreme forcing, heated yoga (thermal stress). Prefer: fluid movements, body awareness, parasympathetic relaxation.",
+                activities: [
+                    { name: "Gentle Static Stretching", duration: "15-20 min", reason: "Holds kept 20-30 seconds (not >60 sec). WITHOUT forcing or pain. Focus on: hips, hamstrings, chest, shoulders. After workout or hot shower (warm muscles). Deep breathing. Avoid before weights (reduces strength).", benefit: "pro" },
+                    { name: "Gentle Yoga (Hatha, Yin)", duration: "30-45 min", reason: "Calm forms of yoga. Positions held with breathing. AVOID: Bikram/hot yoga (thermal stress), Ashtanga/Power yoga (excessive). Benefits: relaxation, mobility, breathing. Better in the evening to activate parasympathetic (rest).", benefit: "pro" },
+                    { name: "Pilates (Mat Work)", duration: "30-40 min", reason: "Focus on core, control, breathing. Fluid and controlled movements. Improves posture and stability. Avoid overly intense variations. Good for rehabilitation and mind-body. Be careful not to overdo spinal flexions.", benefit: "pro" },
+                    { name: "Dynamic Joint Mobility", duration: "10-15 min", reason: "Controlled rotations: shoulders (circles), hips (leg swings), wrists, ankles, neck. Wide but controlled movements. Excellent as warm-up or standalone. Improves functional range of motion without instability.", benefit: "pro" },
+                    { name: "Tai Chi / Qi Gong", duration: "20-30 min", reason: "Slow, fluid, meditative movements. Improve balance, coordination, breathing. Reduce cortisol. Activate parasympathetic. Particularly good for elderly. Zero total impact.", benefit: "pro" },
+                    { name: "Foam Rolling (Self-Myofascial Release)", duration: "10-15 min", reason: "Rolling on foam roller to release myofascial tension. Legs, back, shoulders. Moderate pressure, slow movements. NOT directly on lower back. Good post-workout or rest days. Improves recovery.", benefit: "pro" }
+                ]
+            },
+            lowimpact: {
+                title: "🚶 Low Impact and Recovery",
+                principle: "Active recovery is essential. Gentle movement promotes circulation, reduces cortisol, supports lymphatic system. AVOID total sedentariness but also excessive stress. Parasympathetic activities, nature, sun, nasal breathing.",
+                activities: [
+                    { name: "Relaxed Walking (Flat)", duration: "30-60 min", reason: "Moderate pace, nasal breathing, possibly outdoors (natural light). Reduces cortisol, improves circulation, lymphatic. Peat emphasizes walking vs running. Better in the morning for sunlight (circadian rhythm). After meals for blood sugar.", benefit: "pro" },
+                    { name: "Gentle Swimming", duration: "20-30 min", reason: "Freestyle or backstroke at a relaxed pace. Zero joint impact, full body movement. IMPORTANT: water not too cold (stress), don't swim fasted. Good for recovery. Avoid intense workouts.", benefit: "pro" },
+                    { name: "Light Stationary Bike", duration: "20-30 min", reason: "Minimal resistance, moderate RPM (60-70). While watching TV or reading. Active movement without stress. Good for rest days or recovery from injuries.", benefit: "pro" },
+                    { name: "Gardening / Active Household Chores", duration: "30-60 min", reason: "Natural functional movements. Variety of movements: bending, lifting, walking. Outdoors = sun + vitamin D. Productive. Minimal stress. Naturally intermittent.", benefit: "pro" },
+                    { name: "Diaphragmatic Breathing", duration: "10-15 min", reason: "Deep abdominal breathing. Increases CO2 (essential for metabolism according to Peat). Activates parasympathetic. 4 sec inhale (nose), 6-8 sec exhale (mouth). Sitting or lying down. Excellent pre-sleep or during stress.", benefit: "pro" },
+                    { name: "Post-Meal Walk", duration: "10-20 min", reason: "Light walk 15-30 min after main meals. Improves digestion, reduces blood sugar spikes, promotes nutrient absorption. Tradition in many cultures. Nasal breathing.", benefit: "pro" },
+                    { name: "Sun Exposure (Static or Walking)", duration: "15-30 min", reason: "Direct sun on skin (without sunburn). Vitamin D, circadian rhythm, mood. Peat emphasizes the importance of natural light. Morning or late afternoon (less intense). Combine with walking or reading.", benefit: "pro" }
+                ]
+            },
+            avoid: {
+                title: "⛔ Activities to Avoid or Limit - Scientific Approach",
+                principle: "Some physical activities can: excessively increase cortisol, suppress thyroid, cause chronic inflammation, oxidative stress, joint damage. Overtraining is a real problem that damages metabolism.",
+                activities: [
+                    { name: "🚫 Running on Asphalt / Long Distance", duration: "-", reason: "HIGHLY ECCENTRIC (repeated impact). Each step = 2-3x body weight on joints. Increases cortisol in sessions >30 min. Suppresses T3. Causes chronic inflammation. Oxidative stress (intense breathing without antioxidant support). ALTERNATIVE: uphill walking, short sprints.", benefit: "avoid" },
+                    { name: "🚫 Marathons / Extreme Endurance", duration: "-", reason: "Anti-metabolic exercise. Chronically very high cortisol, suppressed T3, muscle catabolism, massive oxidative stress, potential cardiac damage (fibrosis), accelerated aging. Includes cycling >2 hours, triathlon. Scientific evidence shows these sports as potentially harmful if practiced excessively.", benefit: "avoid" },
+                    { name: "🚫 CrossFit / Excessive HIIT", duration: "-", reason: "If done excessively (>3-4x/week, long sessions). Joint overload, injury risk, chronically elevated cortisol. Rhabdomyolysis. Adrenal exhaustion. MODERATE CrossFit (2x/week, technique focus) can be OK. Excess is the problem.", benefit: "avoid" },
+                    { name: "🚫 Fasted Training", duration: "-", reason: "ESSENTIAL: DO NOT train without available carbohydrates. Massively increases cortisol, suppresses T3, catabolizes muscles. The 'burns fat' myth is counterproductive for metabolism. ALWAYS carbs first (juice, fruit, honey).", benefit: "avoid" },
+                    { name: "🚫 Overtraining / Too Much Frequency", duration: "-", reason: "Training intensely without adequate recovery. Symptoms: chronic fatigue, sleep disturbances, loss of strength, frequent illness, low T3, high cortisol. You need REST. Less can be more. Quality > quantity.", benefit: "avoid" },
+                    { name: "🚫 Excessive Moderate Cardio", duration: "-", reason: "Treadmill/stationary bike/elliptical for 60-90 min at moderate intensity. Seems harmless but: increases cortisol, hunger (overcalorie compensation), reduces muscle mass, adapts metabolism downward. Peat skeptical of benefits. Better: 20-30 min intense or long relaxed walks.", benefit: "avoid" },
+                    { name: "⚠️ Exclusively Eccentric Exercises", duration: "-", reason: "Excessive emphasis on negative phase (slow descent 5+ seconds, drop sets, negatives). Cause excessive muscle damage, severe DOMS, inflammation, stress. Peat prefers concentric emphasis. Controlled eccentric OK, but not primary focus.", benefit: "avoid" },
+                    { name: "⚠️ Hot Yoga / Bikram", duration: "-", reason: "Excessive thermal stress (40C). Dehydration, cardiovascular stress, elevated cortisol. Risk of syncope. Uncompensated thermal stress can be counterproductive. Normal yoga at room temperature is preferable.", benefit: "avoid" },
+                    { name: "⚠️ Excessive Plyometric Jumps", duration: "-", reason: "Box jump, burpees with jump, high volume jump squats. Highly eccentric (landing). Joint stress (knees, ankles). Few and controlled OK. High volume = problematic. Prefer step-up versions.", benefit: "avoid" },
+                    { name: "💡 Complete Rest is Essential", duration: "1-2 days/week", reason: "Days of TOTAL rest (or just light walking) are when the body repairs and grows. Don't feel guilty. Recovery is where progress happens. The importance of sleep, relaxation and parasympathetic system is fundamental for results.", benefit: "avoid" }
+                ]
+            }
+        };
+
+        // Meal suggestions database - Pro-Metabolic Approach
+        const mealDatabase = {
+            thyroid: {
+                title: "🦋 Supporting Thyroid and Metabolism",
+                principle: "The thyroid is the engine of metabolism. It requires simple carbohydrates, quality protein, minerals (selenium, zinc, copper) and must be protected from goitrogens and excess polyunsaturated fatty acids.",
+                foods: [
+                    { name: "Fresh Orange Juice", reason: "Simple easily digestible carbs, vitamin C, potassium. Supports T3 production without digestive stress. Avoid on empty stomach if sensitive.", time: "Morning/Snack", benefit: "pro" },
+                    { name: "Whole Milk", reason: "Complete protein, calcium that balances phosphorus, tryptophan. Easily digestible. Supports sleep and reduces stress.", time: "Anytime", benefit: "pro" },
+                    { name: "Liver (Beef/Chicken)", reason: "Most concentrated source of vitamin A (retinol), copper, heme iron, B12. All essential for T4→T3 conversion. 100g/week.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Seafood (Oysters, Shrimp)", reason: "Selenium, zinc, iodine - all thyroid cofactors. Easily digestible protein. Prefer well cooked.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Raw Honey", reason: "Glucose + fructose. Supports liver in converting T4 to T3. Antibacterial, anti-inflammatory. 1-2 tablespoons/day.", time: "Anytime", benefit: "pro" },
+                    { name: "Eggs (Well-Cooked Yolks)", reason: "Cholesterol for steroid hormones, choline, selenium. IMPORTANT: liquid yolks OK, whites MUST be cooked (contain avidin anti-biotin).", time: "Breakfast", benefit: "pro" },
+                    { name: "White Potatoes (without skin)", reason: "Easily digestible starchy carbs, potassium. The skin contains solanine (avoid). Boiled or baked.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Unrefined Sea Salt", reason: "Sodium essential for gastric juice production and thyroid function. Salt is important for metabolism. Don't fear adequate salt use.", time: "All meals", benefit: "pro" }
+                ]
+            },
+            antiinflammatory: {
+                title: "🔥 Reducing Inflammation",
+                principle: "Chronic inflammation comes from: excess polyunsaturated fatty acids (omega-6), intestinal endotoxins, excess estrogen, oxidative stress. Focus on stable saturated fats, anti-stress carbohydrates, quality protein.",
+                foods: [
+                    { name: "Coconut Oil", reason: "Medium-chain saturated fats (MCT). Doesn't require bile for digestion, converts directly to energy. Intestinally antimicrobial. 2-4 tablespoons/day.", time: "Cooking/Coffee", benefit: "pro" },
+                    { name: "Butter or Ghee from Grass-Fed Animals", reason: "Stable saturated fats, vitamin K2, butyric acid (intestinally anti-inflammatory), CLA. Avoid polyunsaturated vegetable oils.", time: "Cooking", benefit: "pro" },
+                    { name: "Bone Broth (Gelatin)", reason: "Glycine that balances methionine, collagen, minerals. Anti-inflammatory, repairs gut. Glycine is important for balancing amino acids.", time: "Anytime", benefit: "pro" },
+                    { name: "Coffee (with Sugar and Cream)", reason: "Anti-inflammatory polyphenols, stimulates metabolism, protects liver. Sugar prevents stress response. NEVER on empty stomach without carbohydrates.", time: "Morning/Afternoon", benefit: "pro" },
+                    { name: "Ripe Fruits (Melon, Mango, Papaya)", reason: "Simple carbohydrates, digestive enzymes, antioxidants. Tropical fruits are less rich in polyunsaturated fats than nuts/seeds.", time: "Snack", benefit: "pro" },
+                    { name: "Raw Carrots", reason: "Insoluble fibers that bind endotoxins and estrogens in the gut. Antimicrobial. Raw carrot salad recommended daily.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Low-Dose Aspirin (100-300mg)", reason: "Anti-inflammatory, anti-coagulant, anti-estrogenic effects documented by research. WITH FOOD. Consult a doctor.", time: "After meals", benefit: "pro" },
+                    { name: "🚫 AVOID: Polyunsaturated Vegetable Oils", reason: "Soybean, corn, sunflower, canola oils are rich in omega-6 (linoleic acid). Oxidize easily causing inflammation and suppress metabolism.", time: "-", benefit: "avoid" }
+                ]
+            },
+            energy: {
+                title: "⚡ Increasing Energy (Pro-Metabolic)",
+                principle: "Energy comes from efficient oxidative metabolism in mitochondria. Requires: simple carbohydrates (glucose), optimal thyroid function, adequate CO2, minimize lactic acid and stress.",
+                foods: [
+                    { name: "White Sugar or Honey", reason: "Glucose + fructose in 1:1 ratio. Suppresses cortisol, supports liver and thyroid. Simple sugar has an important metabolic role. Dose: according to energy needs.", time: "Anytime", benefit: "pro" },
+                    { name: "Milk + Honey + Coffee", reason: "Pro-metabolic combination: carbohydrates, protein, calcium, caffeine. Ideal drink for sustained energy.", time: "Morning", benefit: "pro" },
+                    { name: "Fruit Juices (Not Concentrate)", reason: "Bioavailable simple carbs without excess fiber. Orange, grape, pineapple. Dilute if sensitive to fast sugar.", time: "Morning/Snack", benefit: "pro" },
+                    { name: "Quality Ice Cream", reason: "Combination of milk, sugar, egg yolks. Easily digestible, pro-metabolic. Considered an ideal food for nutrient balance. Avoid with gums/emulsifiers.", time: "Snack/Dessert", benefit: "pro" },
+                    { name: "White Rice", reason: "Starchy carbs without antinutrients (phytates, lectins) of brown rice. Easily digestible, doesn't cause problematic insulin spikes.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Seafood", reason: "Easily digestible protein with essential minerals. Low content of polyunsaturated fats compared to fatty fish. Prefer shellfish and crustaceans.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Sea Salt + Baking Soda", reason: "Sodium for cellular energy, baking soda increases CO2 (essential for oxidative metabolism). Adequate CO2 is important for metabolism.", time: "With meals", benefit: "pro" },
+                    { name: "🚫 AVOID: Prolonged Fasting", reason: "Increases cortisol and stress, reduces T3, promotes catabolism. Peat recommends eating frequently (every 3-4 hours) with carbohydrates.", time: "-", benefit: "avoid" }
+                ]
+            },
+            liver: {
+                title: "🫀 Supporting Liver and Detox",
+                principle: "The liver is central for: T4→T3 conversion, estrogen/endotoxin detoxification, protein synthesis, glucose production. Requires carbohydrates, quality protein, choline, glycine.",
+                foods: [
+                    { name: "Beef Liver", reason: "The most nutrient-dense food. Vitamin A, copper, choline, B12. Supports liver function. 100-200g/week. Marinate in milk to reduce flavor.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Coffee", reason: "Liver-protective effect proven by research. Reduces fibrosis, cirrhosis, liver cancer. Antioxidant. Increases bile flow. 2-4 cups/day with sugar.", time: "Morning/Afternoon", benefit: "pro" },
+                    { name: "Eggs (Rich in Choline)", reason: "Choline essential for exporting fats from liver (prevent fatty liver). Phosphatidylcholine. 2-3 eggs/day.", time: "Breakfast", benefit: "pro" },
+                    { name: "Easily Digestible Proteins", reason: "Milk, gelatin, shellfish. Amino acids for hepatic protein synthesis without digestive overload. Avoid excess methionine.", time: "Anytime", benefit: "pro" },
+                    { name: "Raw Carrots + Coconut Oil", reason: "Fibers that bind bacterial endotoxins and reabsorbed estrogens. Protect liver from overload. Daily salad.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Honey", reason: "Fructose restores liver glycogen, supports detoxification. Protects from endotoxin damage. Anti-fibrotic.", time: "Anytime", benefit: "pro" },
+                    { name: "Lemon Juice", reason: "Stimulates bile production, supports phase 2 detoxification. Vitamin C. Dilute in water, drink away from meals.", time: "Morning", benefit: "pro" },
+                    { name: "🚫 AVOID: Excessive Alcohol", reason: "Overloads liver, reduces T4→T3 conversion, promotes estrogen. Occasional OK, but not regular.", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Polyunsaturated Fats and Fatty Fish", reason: "Polyunsaturated fats accumulate in the liver causing lipid peroxidation and damage. Prefer lean marine proteins.", time: "-", benefit: "avoid" }
+                ]
+            },
+            stress: {
+                title: "😌 Reducing Stress and Cortisol",
+                principle: "Chronic stress increases cortisol which: suppresses thyroid, raises blood sugar, catabolizes muscles, promotes fat accumulation. Counter with frequent carbohydrates, adequate salt, sleep, antioxidants.",
+                foods: [
+                    { name: "Frequent Simple Carbohydrates", reason: "Sugar/honey/fruit every 3-4 hours keeps blood sugar stable and suppresses cortisol. DO NOT fast.", time: "Every 3-4 hours", benefit: "pro" },
+                    { name: "Milk Before Bed", reason: "Calcium, magnesium, tryptophan → serotonin → melatonin. Reduces nighttime cortisol. Warm with honey.", time: "Evening", benefit: "pro" },
+                    { name: "Generous Salt", reason: "Sodium reduces stress response (aldosterone/cortisol). Adequate salt intake counters the restrictive dogma. Salt food freely.", time: "All meals", benefit: "pro" },
+                    { name: "Gelatin/Bone Broth", reason: "Glycine has calming effect on nervous system, improves sleep. Balances methionine (pro-stress). 10-20g glycine/day.", time: "Evening", benefit: "pro" },
+                    { name: "Vitamin E (Tocopherols)", reason: "Antioxidant that protects PUFA from peroxidation, reduces cortisol. 400IU/day. From food or supplement.", time: "With fats", benefit: "pro" },
+                    { name: "Magnesium (from Milk, Seafood)", reason: "Anti-stress mineral. Relaxes muscles, improves sleep. Forms: glycinate, threonate. 300-400mg/day.", time: "Evening", benefit: "pro" },
+                    { name: "Orange Juice at Wake-Up", reason: "Cortisol is naturally high in the morning. Simple carbohydrates help normalize it quickly.", time: "Early morning", benefit: "pro" },
+                    { name: "🚫 AVOID: Caffeine on Empty Stomach", reason: "Stimulates cortisol and adrenaline without counterbalancing. ALWAYS with carbohydrates (sugar, milk).", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Excessive Exercise", reason: "Prolonged cardio increases cortisol, reduces T3. Prefer short and intense weights, walking.", time: "-", benefit: "avoid" }
+                ]
+            },
+            hormones: {
+                title: "💪 Hormonal Balance",
+                principle: "Key hormones: T3 (metabolism), progesterone (anti-stress), testosterone. Minimize: estrogen, prolactin, cortisol. Support with: carbohydrates, saturated fats, cholesterol, vitamin A, E.",
+                foods: [
+                    { name: "Liver", reason: "Vitamin A (retinol) essential for progesterone and testosterone production. Reduces estrogen. Copper for steroid enzymes.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Egg Yolks + Butter", reason: "Cholesterol (precursor of all steroid hormones), vitamin D, K2. Cholesterol is essential for hormonal synthesis.", time: "Breakfast", benefit: "pro" },
+                    { name: "Saturated Fats (Coconut, Butter)", reason: "Stable, don't suppress metabolism like polyunsaturated fatty acids. Support hormone synthesis.", time: "Cooking", benefit: "pro" },
+                    { name: "Oysters", reason: "Zinc (testosterone, fertility), selenium, copper. Essential minerals for steroidogenic enzymes. 3-6 oysters provide zinc RDA.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Raw Carrots", reason: "Bind excess estrogen in the gut preventing reabsorption. Antibacterial fibers reduce endotoxins (which increase estrogen).", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Cooked Cremini Mushrooms", reason: "Contain aromatase inhibitors (converts testosterone → estrogen). Also direct anti-estrogenic effect.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Aspirin", reason: "Anti-estrogenic, increases progesterone, reduces prolactin. 100-300mg/day with food. Consult a doctor.", time: "After meals", benefit: "pro" },
+                    { name: "🚫 AVOID: Soy and Derivatives", reason: "Phytoestrogens (genistein, daidzein), thyroid inhibitors, polyunsaturated fats. Suppresses testosterone, increases estrogen. Avoid soy to optimize hormones.", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Seeds and Seed Oils", reason: "Rich in polyunsaturated fatty acids that suppress metabolism and hormonal function. Linoleic acid increases aromatase (more estrogen).", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Raw Cruciferous Vegetables", reason: "Goitrogens that suppress thyroid. If consumed, cook well (broccoli, cauliflower, cabbage). Limit frequency.", time: "-", benefit: "avoid" }
+                ]
+            },
+            digestion: {
+                title: "🍃 Improving Digestion",
+                principle: "Optimal digestion requires: adequate gastric acidity, enzymes, bile, healthy microbiome. Avoid bacterial endotoxins, difficult foods, rancid polyunsaturated fats. Prefer easy foods.",
+                foods: [
+                    { name: "Bone Broth with Gelatin", reason: "Glycine repairs intestinal mucosa, reduces inflammation. Easily digestible. Collagen reduces permeability (leaky gut).", time: "Anytime", benefit: "pro" },
+                    { name: "Raw Carrots (Salad)", reason: "Antiseptic fibers that bind bacterial endotoxins. Reduce SIBO and putrefaction. Children may have difficulty with raw, cook them.", time: "Lunch/Dinner", benefit: "pro" },
+                    { name: "Fruit Juices (No Fiber)", reason: "Bioavailable nutrients without digestive stress from fiber. Good during digestive problems. Orange, grape, apple.", time: "Snack", benefit: "pro" },
+                    { name: "Milk", reason: "Easily digestible if tolerated. Lactose supports beneficial bacteria. If intolerant: try A2 milk, kefir, yogurt.", time: "Anytime", benefit: "pro" },
+                    { name: "Ripe and Cooked Fruits", reason: "Ripe bananas, cooked apples, papaya. Soft, easy to digest. Papaya contains papain (digestive enzyme).", time: "Snack", benefit: "pro" },
+                    { name: "Sodium Bicarbonate", reason: "Neutralizes excess acidity, increases CO2 (improves digestion). 1/4 teaspoon in water after meals if needed.", time: "After meals", benefit: "pro" },
+                    { name: "Salt with Meals", reason: "Stimulates HCl (gastric acid) and pepsin production. Essential for protein digestion. Don't limit salt.", time: "All meals", benefit: "pro" },
+                    { name: "🚫 AVOID: Excessive Insoluble Fiber", reason: "Whole grains, bran irritate the gut. Excessive fiber can be problematic. Prefer refined carbs (white rice, potatoes).", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Legumes", reason: "Lectins, phytates, enzyme inhibitors. Cause gas, bloating, intestinal inflammation. Difficult to digest.", time: "-", benefit: "avoid" },
+                    { name: "🚫 AVOID: Polyunsaturated Fats", reason: "Oxidize easily causing intestinal oxidative stress. Damage mucosa. Use coconut oil/butter.", time: "-", benefit: "avoid" }
+                ]
+            },
+            avoid: {
+                title: "⛔ Foods to Avoid or Limit - Scientific Approach",
+                principle: "These foods are considered anti-metabolic, pro-inflammatory or problematic according to nutritional research for various mechanisms: thyroid suppression, excess estrogen, endotoxins, polyunsaturated fatty acids, antinutrients.",
+                foods: [
+                    { name: "🚫 Polyunsaturated Vegetable Oils", reason: "THE MOST IMPORTANT TO AVOID. Soybean, corn, sunflower, safflower, canola oils. Suppress metabolism, thyroid, promote inflammation. Use: coconut, butter, olive oil (moderate).", time: "-", benefit: "avoid" },
+                    { name: "🚫 Fatty Fish", reason: "Salmon, mackerel, sardines are rich in omega-3 PUFA (DHA, EPA) that oxidize easily. Critical approach to omega-3s. Prefer: shellfish, crustaceans, white fish.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Soy and Derivatives", reason: "Phytoestrogens, goitrogens (suppress thyroid), trypsin inhibitors, PUFA. Tofu, soy milk, isolated soy protein - all problematic.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Nuts and Seeds", reason: "Polyunsaturated fatty acids, enzyme inhibitors, phytates. Promote inflammation. Nuts are less problematic, but limit. Flax seeds are particularly problematic (phytoestrogens + PUFA).", time: "-", benefit: "avoid" },
+                    { name: "🚫 Whole Grains", reason: "Phytates (bind minerals), irritating fiber, gluten (inflammatory), phytic acid. Prefer: white rice, potatoes, refined pasta. White bread is better than whole wheat.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Legumes", reason: "Lectins, phytates, protease inhibitors, oligosaccharides (gas). Cause intestinal permeability. Beans, lentils, chickpeas. Difficult to fully detoxify.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Raw Cruciferous Vegetables", reason: "Goitrogens (glucosinolates) suppress thyroid. Broccoli, cauliflower, cabbage, Brussels sprouts, arugula. Cooking reduces but doesn't eliminate. Limit frequency.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Avocado", reason: "High content of polyunsaturated fatty acids (oleic acid is OK but linoleic also present). Unsaturated fats. Use in moderation.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Pork", reason: "Can contain more polyunsaturated fats if animals fed soy/corn. Prefer: beef, lamb, chicken from grass-fed/pasture-raised animals.", time: "-", benefit: "avoid" },
+                    { name: "🚫 Raw Mushrooms", reason: "Contain agaritine (carcinogenic) and chitin (indigestible). ALWAYS cook mushrooms. Cooked cremini mushrooms are OK (anti-estrogenic).", time: "-", benefit: "avoid" },
+                    { name: "🚫 Fermented Foods in Excess", reason: "Can contain tyramine, histamine (pro-inflammatory). Bacteria can produce endotoxins. Kefir, kombucha - moderation.", time: "-", benefit: "avoid" },
+                    { name: "⚠️ Raw Egg Whites", reason: "Avidin binds biotin (vitamin B7). Trypsin inhibitors. ALWAYS cook egg whites. Raw yolks OK (nutritious).", time: "-", benefit: "avoid" }
+                ]
+            }
+        };
+
+        // Supplement suggestions database
+        const supplementDatabase = {
+            sleep: {
+                title: "😴 Improving Sleep",
+                synergy: "💡 SYNERGY: Magnesium + Glycine + Melatonin work in synergy to improve both falling asleep and deep sleep quality. Take them all together 30-60 minutes before bed.",
+                supplements: [
+                    { name: "Magnesium Bisglycinate", dosage: "300-400mg", time: "Evening", notes: "Promotes muscle relaxation and improves sleep quality. Highly bioavailable form.", synergy: true },
+                    { name: "Melatonin", dosage: "1-3mg", time: "Evening", notes: "Regulates circadian rhythm. Start with low doses 30-60 minutes before bed.", synergy: true },
+                    { name: "L-Theanine", dosage: "200-400mg", time: "Evening", notes: "Relaxing amino acid extracted from green tea, promotes relaxation without drowsiness." },
+                    { name: "Glycine", dosage: "3g", time: "Evening", notes: "Amino acid that lowers body temperature and improves deep sleep quality.", synergy: true }
+                ]
+            },
+            energy: {
+                title: "⚡ Increasing Energy",
+                synergy: "💡 SYNERGY: Vitamin B12 + CoQ10 + Iron (if deficient) work together in cellular energy production (ATP) and oxygen transport. Take them all in the morning.",
+                supplements: [
+                    { name: "Vitamin B12 (Methylcobalamin)", dosage: "1000mcg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Essential for cellular energy production. The methylated form is more bioavailable. Excess is eliminated through urine.", synergy: true, solubility: "hydro" },
+                    { name: "Coenzyme Q10", dosage: "100-200mg", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Supports ATP production in mitochondria. Take with fats for better absorption.", synergy: true, solubility: "lipo" },
+                    { name: "Iron (if deficient)", dosage: "30-60mg", time: "Morning", notes: "Essential for oxygen transport. Check levels with blood tests.", synergy: true },
+                    { name: "Creatine Monohydrate", dosage: "5g", time: "Morning", notes: "Improves cellular energy and physical and cognitive performance." }
+                ]
+            },
+            focus: {
+                title: "🧠 Improving Focus and Memory",
+                synergy: "💡 SYNERGY: Omega-3 + Choline + L-Tyrosine support neurotransmitter production and brain membrane health. Omega-3 is the structural base, choline produces acetylcholine, tyrosine produces dopamine.",
+                supplements: [
+                    { name: "Omega-3 (EPA/DHA)", dosage: "1000-2000mg", time: "During meals", notes: "⚗️ FAT-SOLUBLE - Essential for brain health. Choose high quality fish oil or algae. Take with meals containing fats.", synergy: true, solubility: "lipo" },
+                    { name: "L-Tyrosine", dosage: "500-1000mg", time: "Morning", notes: "Dopamine precursor, improves focus and cognitive performance under stress.", synergy: true },
+                    { name: "Bacopa Monnieri", dosage: "300mg", time: "Morning", notes: "Adaptogen that improves memory and learning over time." },
+                    { name: "Lion's Mane (Hericium)", dosage: "500-1000mg", time: "Morning", notes: "Medicinal mushroom that supports neurogenesis and cognitive function." }
+                ]
+            },
+            immunity: {
+                title: "🛡️ Strengthening the Immune System",
+                synergy: "💡 SYNERGY: Vitamin D3 + Zinc + Vitamin C form a powerful trio for the immune system. Vitamin D modulates immune response, zinc is needed for cell division, vitamin C supports white blood cells.",
+                supplements: [
+                    { name: "Vitamin D3", dosage: "2000-4000 IU", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Essential for the immune system. Take with meals containing fats. Monitor blood levels regularly. Can accumulate so don't exceed doses.", synergy: true, solubility: "lipo" },
+                    { name: "Vitamin C", dosage: "1000mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Powerful antioxidant that supports immune function. Excess is eliminated through urine, so multiple daily doses are more effective.", synergy: true, solubility: "hydro" },
+                    { name: "Zinc", dosage: "15-30mg", time: "During meals", notes: "Essential for immune response. Don't exceed 40mg/day.", synergy: true },
+                    { name: "Quercetin", dosage: "500mg", time: "Morning", notes: "Flavonoid with antiviral and anti-inflammatory properties." }
+                ]
+            },
+            detox: {
+                title: "🌿 Detoxification",
+                synergy: "💡 SYNERGY: Selenium + NAC + Alpha-Lipoic Acid work together to produce glutathione (master antioxidant) and chelate heavy metals. Selenium is a glutathione cofactor, NAC is the precursor, ALA regenerates used glutathione.",
+                supplements: [
+                    { name: "Selenium", dosage: "200mcg", time: "Morning", notes: "Essential for glutathione production, helps eliminate mercury and heavy metals.", synergy: true },
+                    { name: "NAC (N-Acetyl Cysteine)", dosage: "600-1200mg", time: "Morning", notes: "Glutathione precursor, potent detoxifier and antioxidant.", synergy: true },
+                    { name: "Chlorella", dosage: "3-5g", time: "During meals", notes: "Algae that binds heavy metals facilitating their elimination.", synergy: true },
+                    { name: "Alpha-Lipoic Acid", dosage: "300-600mg", time: "Morning", notes: "Heavy metal chelator and potent antioxidant.", synergy: true }
+                ]
+            },
+            bones: {
+                title: "🦴 Bone Health",
+                synergy: "💡 COMPLETE SYNERGY: Vitamin D3 + Vitamin K2 + Magnesium + Calcium must ALWAYS be taken together! D3 increases calcium absorption, K2 directs calcium into bones (and out of arteries), magnesium activates vitamin D and regulates calcium. Without K2, D3 can cause arterial calcification!",
+                supplements: [
+                    { name: "Vitamin D3", dosage: "2000-4000 IU", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Essential for calcium absorption and bone mineralization. Take with fats. Can accumulate, so monitor blood levels.", synergy: true, solubility: "lipo" },
+                    { name: "Vitamin K2 (MK-7)", dosage: "100-200mcg", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Directs calcium into bones and out of arteries. ESSENTIAL with vitamin D! Take together with fats.", synergy: true, solubility: "lipo" },
+                    { name: "Magnesium", dosage: "300-400mg", time: "Evening", notes: "Essential cofactor for bone health and vitamin D activation.", synergy: true },
+                    { name: "Calcium (if necessary)", dosage: "500-1000mg", time: "During meals", notes: "Prefer dietary sources. If supplementing, divide into multiple doses and ALWAYS with D3+K2.", synergy: true }
+                ]
+            },
+            joints: {
+                title: "🦵 Joint Health",
+                synergy: "💡 SYNERGY: Glucosamine + Chondroitin + MSM work better together. Glucosamine and chondroitin are the building blocks of cartilage, MSM provides sulfur for collagen synthesis and reduces inflammation.",
+                supplements: [
+                    { name: "Glucosamine Sulfate", dosage: "1500mg", time: "During meals", notes: "Supports joint cartilage regeneration.", synergy: true },
+                    { name: "Chondroitin", dosage: "1200mg", time: "During meals", notes: "Protects cartilage and reduces joint inflammation.", synergy: true },
+                    { name: "MSM", dosage: "1000-3000mg", time: "Morning", notes: "Source of organic sulfur, reduces joint pain and inflammation.", synergy: true },
+                    { name: "Hydrolyzed Collagen", dosage: "10g", time: "Morning", notes: "Provides amino acids for new joint collagen synthesis." }
+                ]
+            },
+            heart: {
+                title: "❤️ Cardiovascular Health",
+                synergy: "💡 SYNERGY: Omega-3 + CoQ10 + Magnesium protect the heart in complementary ways. Omega-3 reduces inflammation and triglycerides, CoQ10 provides energy to the cardiac muscle, magnesium regulates rhythm and pressure.",
+                supplements: [
+                    { name: "Omega-3 (EPA/DHA)", dosage: "2000-3000mg", time: "During meals", notes: "⚗️ FAT-SOLUBLE - Reduces triglycerides and inflammation, protects the heart. Take with fat-containing meals for maximum absorption.", synergy: true, solubility: "lipo" },
+                    { name: "Coenzyme Q10", dosage: "100-200mg", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Essential antioxidant for cardiac energy, important if taking statins. Take with fats.", synergy: true, solubility: "lipo" },
+                    { name: "Magnesium", dosage: "300-400mg", time: "Evening", notes: "Regulates heart rhythm and blood pressure.", synergy: true },
+                    { name: "L-Arginine", dosage: "3-6g", time: "Morning", notes: "Nitric oxide precursor, improves vascular function." }
+                ]
+            },
+            muscle: {
+                title: "💪 Muscle Growth and Recovery",
+                synergy: "💡 SYNERGY: Protein + Creatine + BCAA work together to maximize growth and recovery. Protein provides amino acids, creatine increases ATP and strength, BCAA prevents catabolism during training.",
+                supplements: [
+                    { name: "Whey Protein", dosage: "20-30g", time: "After meals", notes: "Complete source of amino acids for muscle protein synthesis.", synergy: true },
+                    { name: "Creatine Monohydrate", dosage: "5g", time: "Morning", notes: "Increases strength, muscle mass and recovery. Most studied and effective form.", synergy: true },
+                    { name: "BCAA (2:1:1)", dosage: "5-10g", time: "During meals", notes: "Branched-chain amino acids that reduce muscle catabolism.", synergy: true },
+                    { name: "Beta-Alanine", dosage: "3-5g", time: "Morning", notes: "Buffers lactic acid, improves muscular endurance." }
+                ]
+            },
+            stress: {
+                title: "😌 Reducing Stress and Anxiety",
+                synergy: "💡 SYNERGY: Ashwagandha + Magnesium + L-Theanine form a relaxing trio. Ashwagandha lowers cortisol, magnesium calms the nervous system, L-theanine promotes alpha brain waves (relaxation).",
+                supplements: [
+                    { name: "Ashwagandha KSM-66", dosage: "300-600mg", time: "Evening", notes: "Adaptogen that reduces cortisol, stress and anxiety. Patented high-concentration extract.", synergy: true },
+                    { name: "Rhodiola Rosea", dosage: "200-400mg", time: "Morning", notes: "Adaptogen that improves resistance to physical and mental stress." },
+                    { name: "L-Theanine", dosage: "200mg", time: "Morning", notes: "Promotes relaxation without sedation, synergy with caffeine.", synergy: true },
+                    { name: "Magnesium Bisglycinate", dosage: "300-400mg", time: "Evening", notes: "Calms the nervous system and supports stress response.", synergy: true }
+                ]
+            },
+            skin: {
+                title: "✨ Improving Skin, Hair and Nails",
+                synergy: "💡 SYNERGY: Collagen + Vitamin C + Biotin work together for beauty. Vitamin C is essential for collagen synthesis, biotin supports keratin (hair and nails), collagen provides the structure.",
+                supplements: [
+                    { name: "Marine Collagen", dosage: "5-10g", time: "Morning", notes: "Improves skin elasticity and reduces wrinkles. Type I and III most effective.", synergy: true },
+                    { name: "Biotin (Vitamin B7)", dosage: "5000mcg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Supports strong hair and nail growth. Excess is eliminated through urine, so safe even at high doses.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin C", dosage: "1000mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Essential cofactor for collagen synthesis. Better to split the dose throughout the day.", synergy: true, solubility: "hydro" },
+                    { name: "Hyaluronic Acid", dosage: "100-200mg", time: "Morning", notes: "Maintains skin hydration from within." }
+                ]
+            },
+            digestion: {
+                title: "🍃 Improving Digestion",
+                synergy: "💡 SYNERGY: Probiotics + L-Glutamine + Enzymes work on different levels. Probiotics populate the gut with good bacteria, glutamine repairs intestinal mucosa, enzymes help digest food.",
+                supplements: [
+                    { name: "Multi-strain Probiotics", dosage: "10-50 billion CFU", time: "Morning", notes: "Rebalances the intestinal microbiome. Choose with Lactobacillus and Bifidobacterium.", synergy: true },
+                    { name: "Digestive Enzymes", dosage: "1-2 capsules", time: "During meals", notes: "Help digest proteins, fats and carbohydrates.", synergy: true },
+                    { name: "L-Glutamine", dosage: "5g", time: "Morning", notes: "Repairs intestinal mucosa, reduces permeability.", synergy: true },
+                    { name: "Psyllium Fiber", dosage: "5-10g", time: "Evening", notes: "Soluble fiber that regulates the gut and feeds beneficial bacteria." }
+                ]
+            },
+            testosterone: {
+                title: "🔥 Natural Testosterone Support",
+                synergy: "💡 SYNERGY: Zinc + Vitamin D3 + Magnesium (ZMA formula) are the three fundamental minerals for optimal testosterone production. All three are cofactors in enzymes that synthesize testosterone.",
+                supplements: [
+                    { name: "Zinc", dosage: "25-30mg", time: "During meals", notes: "Essential for testosterone production. Important for those training intensely.", synergy: true },
+                    { name: "Vitamin D3", dosage: "3000-5000 IU", time: "Morning", notes: "⚗️ FAT-SOLUBLE - Optimal vitamin D levels correlate with higher testosterone. Take with fats. Can accumulate, monitor levels.", synergy: true, solubility: "lipo" },
+                    { name: "Magnesium", dosage: "400mg", time: "Evening", notes: "Increases free testosterone, reduces protein-bound testosterone.", synergy: true },
+                    { name: "Fenugreek", dosage: "500-600mg", time: "Morning", notes: "May increase free testosterone and improve body composition." }
+                ]
+            },
+            antioxidant: {
+                title: "🍇 Antioxidant Protection",
+                synergy: "💡 SYNERGY: Vitamin C + Vitamin E + Glutathione form an antioxidant network. Vitamin C regenerates vitamin E, glutathione regenerates both. Together they offer both water-soluble and fat-soluble protection.",
+                supplements: [
+                    { name: "Vitamin E (mixed form)", dosage: "400 IU", time: "During meals", notes: "⚗️ FAT-SOLUBLE - Protects cell membranes from oxidation. Prefer mixed tocopherols. Take with fats. Can accumulate, don't exceed doses.", synergy: true, solubility: "lipo" },
+                    { name: "Resveratrol", dosage: "250-500mg", time: "Morning", notes: "Polyphenol from red wine with potent anti-aging effects." },
+                    { name: "Astaxanthin", dosage: "4-12mg", time: "During meals", notes: "⚗️ FAT-SOLUBLE - Super-potent carotenoid, protects skin, eyes and brain. Take with fats for maximum absorption.", solubility: "lipo" },
+                    { name: "Glutathione", dosage: "250-500mg", time: "Morning", notes: "Master antioxidant of the body. Prefer liposomal forms for better absorption.", synergy: true }
+                ]
+            },
+            vitaminb: {
+                title: "💊 Vitamin B Complex (Energy and Nervous System)",
+                synergy: "💡 COMPLETE SYNERGY: All 8 B vitamins work together as COENZYMES in metabolic processes. B1, B2, B3, B5 convert food into energy (ATP). B6, B9, B12 work together in amino acid metabolism and DNA synthesis. Deficiencies in one B vitamin can compromise the effectiveness of others. For maximum benefits, take a complete B complex!",
+                supplements: [
+                    { name: "Vitamin B1 (Thiamine)", dosage: "100mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Essential for carbohydrate metabolism and energy production. Fundamental for the nervous system. Deficiencies cause fatigue and neurological problems.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B2 (Riboflavin)", dosage: "100mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Coenzyme in cellular energy production (FAD). Important for skin, eye and red blood cell health. May turn urine bright yellow (normal).", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B3 (Niacin)", dosage: "100-500mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Forms NAD+, crucial for energy and DNA repair. Improves HDL cholesterol. High doses (>100mg) may cause flush (temporary redness). Consider niacinamide form to avoid flush.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B5 (Pantothenic Acid)", dosage: "500mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Forms Coenzyme A, essential for steroid hormone synthesis, neurotransmitters and energy metabolism. Supports adrenal function and reduces stress.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B6 (Pyridoxine)", dosage: "50-100mg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Cofactor in over 100 enzymatic reactions. Essential for serotonin, dopamine, GABA synthesis. Supports immune system. Don't exceed 200mg/day long-term (neuropathy risk).", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B7 (Biotin)", dosage: "5000mcg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Coenzyme for carboxylases, essential for fat, carbohydrate and amino acid metabolism. Famous for strong hair, skin and nails. Safe even at high doses.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B9 (Folic Acid/Methylfolate)", dosage: "400-800mcg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Essential for DNA synthesis, cell division and red blood cell formation. ESSENTIAL in pregnancy. Prefer METHYLFOLATE (active form) - 40% of people have MTHFR mutation and don't convert folic acid well.", synergy: true, solubility: "hydro" },
+                    { name: "Vitamin B12 (Methylcobalamin)", dosage: "1000mcg", time: "Morning", notes: "⚗️ WATER-SOLUBLE - Essential for energy, DNA synthesis, myelin formation (nerves), red blood cells. DEFICIENT in vegans (only from animal sources). Prefer METHYLCOBALAMIN or ADENOSYLCOBALAMIN (active forms) instead of cyanocobalamin.", synergy: true, solubility: "hydro" }
+                ]
+            }
+        };
+
+        // Data initialization
+        let data = {
+            meals: [],
+            supplements: [],
+            activities: [],
+            goals: []
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem('routineData');
+            if (saved) {
+                data = JSON.parse(saved);
+                renderAll();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('routineData', JSON.stringify(data));
+            updateStats();
+        }
+
+        function updateDate() {
+            const locale = 'en-US';
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = 
+                new Date().toLocaleDateString(locale, options);
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'overview') {
+                renderOverview();
+            }
+        }
+
+        function addMeal() {
+            const time = document.getElementById('mealTime').value;
+            const name = document.getElementById('mealName').value;
+            const notes = document.getElementById('mealNotes').value;
+
+            if (!name) {
+                alert('Please enter the meal name');
+                return;
+            }
+
+            data.meals.push({
+                id: Date.now(),
+                time,
+                name,
+                notes,
+                completed: false
+            });
+
+            document.getElementById('mealName').value = '';
+            document.getElementById('mealNotes').value = '';
+
+            saveData();
+            renderMeals();
+        }
+
+        function addSupplement() {
+            const name = document.getElementById('supplementName').value;
+            const dosage = document.getElementById('supplementDosage').value;
+            const time = document.getElementById('supplementTime').value;
+            const notes = document.getElementById('supplementNotes').value;
+
+            if (!name || !dosage) {
+                alert('Please enter name and dosage');
+                return;
+            }
+
+            data.supplements.push({
+                id: Date.now(),
+                name,
+                dosage,
+                time,
+                notes,
+                completed: false
+            });
+
+            document.getElementById('supplementName').value = '';
+            document.getElementById('supplementDosage').value = '';
+            document.getElementById('supplementNotes').value = '';
+
+            saveData();
+            renderSupplements();
+        }
+
+        function addActivity() {
+            const name = document.getElementById('activityName').value;
+            const time = document.getElementById('activityTime').value;
+            const duration = document.getElementById('activityDuration').value;
+            const notes = document.getElementById('activityNotes').value;
+
+            if (!name) {
+                alert('Please enter the activity name');
+                return;
+            }
+
+            data.activities.push({
+                id: Date.now(),
+                name,
+                time,
+                duration,
+                notes,
+                completed: false
+            });
+
+            document.getElementById('activityName').value = '';
+            document.getElementById('activityTime').value = '';
+            document.getElementById('activityDuration').value = '';
+            document.getElementById('activityNotes').value = '';
+
+            saveData();
+            renderActivities();
+        }
+
+        function addGoal() {
+            const title = document.getElementById('goalTitle').value;
+            const type = document.getElementById('goalType').value;
+            const deadline = document.getElementById('goalDeadline').value;
+            const description = document.getElementById('goalDescription').value;
+
+            if (!title) {
+                alert('Please enter the goal title');
+                return;
+            }
+
+            data.goals.push({
+                id: Date.now(),
+                title,
+                type,
+                deadline,
+                description,
+                progress: 0
+            });
+
+            document.getElementById('goalTitle').value = '';
+            document.getElementById('goalDeadline').value = '';
+            document.getElementById('goalDescription').value = '';
+
+            saveData();
+            renderGoals();
+        }
+
+        function renderMeals() {
+            const list = document.getElementById('mealsList');
+            
+            if (data.meals.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🍽️</div>
+                        <p>No meals planned. Start adding one!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = data.meals.map(meal => `
+                <div class="item ${meal.completed ? 'completed' : ''}">
+                    <div class="checkbox-container">
+                        <input type="checkbox" ${meal.completed ? 'checked' : ''} 
+                               onchange="toggleComplete('meals', ${meal.id})">
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">
+                            <span class="meal-time-badge">${meal.time}</span>
+                            ${meal.name}
+                        </div>
+                        ${meal.notes ? `<div class="item-details">${meal.notes}</div>` : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="icon-btn" onclick="deleteItem('meals', ${meal.id})" title="Delete">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSupplements() {
+            const list = document.getElementById('supplementsList');
+            
+            if (data.supplements.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💊</div>
+                        <p>No supplements registered. Add one!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const timeGroups = {
+                'Morning': [],
+                'Afternoon': [],
+                'Evening': [],
+                'Before meals': [],
+                'During meals': [],
+                'After meals': []
+            };
+
+            data.supplements.forEach(supp => {
+                if (timeGroups[supp.time]) {
+                    timeGroups[supp.time].push(supp);
+                }
+            });
+
+            let html = '';
+
+            Object.keys(timeGroups).forEach(timeGroup => {
+                if (timeGroups[timeGroup].length > 0) {
+                    html += `
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: #667eea; font-size: 1.3em; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                ${getTimeIcon(timeGroup)} ${timeGroup}
+                            </h3>
+                            <div style="display: grid; gap: 15px;">
+                    `;
+
+                    timeGroups[timeGroup].forEach(supp => {
+                        const suppId = `supp-${supp.id}`;
+                        html += `
+                            <div class="supplement-card ${supp.completed ? 'completed' : ''}" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px solid #667eea; border-radius: 12px; padding: 20px; position: relative;">
+                                <div style="display: flex; align-items: start; gap: 15px;">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" ${supp.completed ? 'checked' : ''} 
+                                               onchange="toggleComplete('supplements', ${supp.id})"
+                                               style="width: 24px; height: 24px;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-size: 1.3em; font-weight: bold; color: #333; margin-bottom: 8px;">
+                                            💊 ${supp.name}
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;">
+                                            <div style="background: #667eea; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 1.1em;">
+                                                📊 ${supp.dosage}
+                                            </div>
+                                            <div style="color: #666; font-size: 1em;">
+                                                🕐 ${supp.time}
+                                            </div>
+                                        </div>
+                                        ${supp.notes ? `
+                                            <div style="background: white; padding: 12px; border-radius: 8px; color: #666; font-size: 0.95em; border-left: 3px solid #667eea;">
+                                                📝 ${supp.notes}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <button class="delete-supplement-btn" data-id="${supp.id}"
+                                            title="Delete" 
+                                            style="background: #ff6b6b; color: white; border: none; border-radius: 8px; padding: 8px 12px; font-size: 1.2em; cursor: pointer; transition: background 0.3s;">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            list.innerHTML = html;
+            
+            document.querySelectorAll('.delete-supplement-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    deleteItem('supplements', id);
+                });
+            });
+        }
+
+        function getTimeIcon(time) {
+            const icons = {
+                'Morning': '🌅',
+                'Afternoon': '☀️',
+                'Evening': '🌙',
+                'Before meals': '🍽️⏪',
+                'During meals': '🍽️',
+                'After meals': '🍽️⏩'
+            };
+            return icons[time] || '⏰';
+        }
+
+        function showActivitySuggestions() {
+            const select = document.getElementById('activityGoalSelect');
+            const container = document.getElementById('activitySuggestions');
+            const goal = select.value;
+
+            if (!goal) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const data = activityDatabase[goal];
+            
+            let html = `
+                <div style="background: white; padding: 20px; border-radius: 12px; color: #333;">
+                    <h4 style="color: #1e40af; font-size: 1.3em; margin-bottom: 15px;">${data.title}</h4>
+                    
+                        <div style="background: #dbeafe; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #1e40af;">
+                        <div style="font-weight: bold; margin-bottom: 8px; color: #1e40af;">📚 Scientific Principle:</div>
+                        <p style="line-height: 1.6; font-size: 0.95em; color: #374151;">${data.principle}</p>
+                    </div>
+                    
+                    <p style="margin-bottom: 20px; color: #666; font-weight: 600;">Recommended Activities and Explanations:</p>
+                    <div style="display: grid; gap: 15px;">
+            `;
+
+            data.activities.forEach((activity, index) => {
+                const isAvoid = activity.benefit === 'avoid';
+                const isBest = activity.benefit === 'best';
+                let bgColor, borderColor, icon;
+                
+                if (isBest) {
+                    bgColor = '#dcfce7';
+                    borderColor = '#16a34a';
+                    icon = '⭐';
+                } else if (isAvoid) {
+                    bgColor = '#ffe6e6';
+                    borderColor = '#ff4444';
+                    icon = '🚫';
+                } else {
+                    bgColor = '#f0f9ff';
+                    borderColor = '#3b82f6';
+                    icon = '✅';
+                }
+                
+                html += `
+                    <div style="background: ${bgColor}; padding: 15px; border-radius: 10px; border-left: 4px solid ${borderColor}; ${isBest ? 'box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);' : ''}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 15px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: ${isAvoid ? '#dc2626' : isBest ? '#16a34a' : '#1e40af'}; display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 1.3em;">${icon}</span>
+                                    <span>${activity.name}</span>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    ${activity.duration !== '-' ? `<span style="background: ${isAvoid ? '#ff4444' : isBest ? '#16a34a' : '#3b82f6'}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600;">
+                                        ⏱️ ${activity.duration}
+                                    </span>` : ''}
+                                </div>
+                                <div style="color: #444; font-size: 0.95em; line-height: 1.6; margin-top: 8px;">
+                                    ${activity.reason}
+                                </div>
+                            </div>
+                            ${!isAvoid ? `
+                                <button class="btn btn-primary" onclick="addSuggestedActivity('${activity.name.replace(/'/g, "\\'")}', '${activity.duration}', '${activity.reason.replace(/'/g, "\\'")}');" 
+                                        style="white-space: nowrap; padding: 10px 20px; background: ${isBest ? '#16a34a' : '#3b82f6'};">
+                                    ➕ Add
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <strong>⚠️ Note:</strong> These suggestions are based on scientific research on metabolic optimization. Always consult a healthcare professional before starting a new exercise program, especially if you have medical conditions or injuries.
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function addSuggestedActivity(name, duration, notes) {
+            const durationMatch = duration.match(/(\d+)/);
+            const durationMinutes = durationMatch ? durationMatch[1] : '30';
+
+            data.activities.push({
+                id: Date.now(),
+                name: name,
+                time: '',
+                duration: durationMinutes,
+                notes: notes,
+                completed: false
+            });
+
+            saveData();
+            renderActivities();
+
+            alert(`✅ ${name} added to your activities!`);
+        }
+
+        function showMealSuggestions() {
+            const select = document.getElementById('mealGoalSelect');
+            const container = document.getElementById('mealSuggestions');
+            const goal = select.value;
+
+            if (!goal) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const data = mealDatabase[goal];
+            
+            let html = `
+                <div style="background: white; padding: 20px; border-radius: 12px; color: #333;">
+                    <h4 style="color: #f5576c; font-size: 1.3em; margin-bottom: 15px;">${data.title}</h4>
+                    
+                        <div style="background: #fff9e6; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #ffa500;">
+                        <div style="font-weight: bold; margin-bottom: 8px; color: #d97706;">📚 Scientific Principle:</div>
+                        <p style="line-height: 1.6; font-size: 0.95em; color: #666;">${data.principle}</p>
+                    </div>
+                    
+                    <p style="margin-bottom: 20px; color: #666; font-weight: 600;">Recommended Foods and Explanations:</p>
+                    <div style="display: grid; gap: 15px;">
+            `;
+
+            data.foods.forEach((food, index) => {
+                const isAvoid = food.benefit === 'avoid';
+                const bgColor = isAvoid ? '#ffe6e6' : '#e6f7f0';
+                const borderColor = isAvoid ? '#ff4444' : '#10b981';
+                const icon = isAvoid ? '🚫' : '✅';
+                
+                html += `
+                    <div style="background: ${bgColor}; padding: 15px; border-radius: 10px; border-left: 4px solid ${borderColor};">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 15px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: ${isAvoid ? '#dc2626' : '#059669'}; display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 1.2em;">${icon}</span>
+                                    <span>${food.name}</span>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    ${food.time !== '-' ? `<span style="background: ${isAvoid ? '#ff4444' : '#10b981'}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600;">
+                                        🕐 ${food.time}
+                                    </span>` : ''}
+                                </div>
+                                <div style="color: #444; font-size: 0.95em; line-height: 1.6; margin-top: 8px;">
+                                    <strong>Why:</strong> ${food.reason}
+                                </div>
+                            </div>
+                            ${!isAvoid ? `
+                                <button class="btn btn-primary" onclick="addSuggestedMeal('${food.name.replace(/'/g, "\\'")}', '${food.time}', '${food.reason.replace(/'/g, "\\'")}');" 
+                                        style="white-space: nowrap; padding: 10px 20px; background: #10b981;">
+                                    ➕ Add
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <strong>⚠️ Note:</strong> These suggestions are based on scientific research on metabolic optimization. Always consult a healthcare professional before making significant dietary changes, especially if you have medical conditions.
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function addSuggestedMeal(name, time, notes) {
+            const timeMapping = {
+                'Morning': 'Breakfast',
+                'Early morning': 'Breakfast',
+                'Morning/Snack': 'Morning Snack',
+                'Snack': 'Afternoon Snack',
+                'Lunch/Dinner': 'Lunch',
+                'Lunch': 'Lunch',
+                'Dinner': 'Dinner',
+                'Evening': 'Dinner',
+                'Anytime': 'Afternoon Snack',
+                'Breakfast': 'Breakfast',
+                'After meals': 'Afternoon Snack',
+                'Cooking': 'Lunch',
+                'Cooking/Coffee': 'Breakfast',
+                'Morning/Afternoon': 'Morning Snack',
+                'Snack/Dessert': 'Afternoon Snack',
+                'With meals': 'Lunch',
+                'All meals': 'Lunch',
+                'Every 3-4 hours': 'Afternoon Snack',
+                'With fats': 'Lunch'
+            };
+
+            const mappedTime = timeMapping[time] || 'Lunch';
+
+            data.meals.push({
+                id: Date.now(),
+                time: mappedTime,
+                name: name,
+                notes: notes,
+                completed: false
+            });
+
+            saveData();
+            renderMeals();
+
+            alert(`✅ ${name} added to your meals!`);
+        }
+
+        function showSupplementSuggestions() {
+            const select = document.getElementById('supplementGoalSelect');
+            const container = document.getElementById('supplementSuggestions');
+            const goal = select.value;
+
+            if (!goal) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const data = supplementDatabase[goal];
+            
+            let html = `
+                <div style="background: white; padding: 20px; border-radius: 12px; color: #333;">
+                    <h4 style="color: #667eea; font-size: 1.3em; margin-bottom: 15px;">${data.title}</h4>
+                    
+                    <div style="background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%); padding: 20px; border-radius: 10px; margin-bottom: 20px; color: white; border: 3px solid #ff6b00;">
+                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.5em;">🔗</span>
+                            <span>SYNERGY - TAKE TOGETHER!</span>
+                        </div>
+                        <p style="line-height: 1.6; font-size: 1.05em;">${data.synergy}</p>
+                    </div>
+                    
+                    <p style="margin-bottom: 20px; color: #666;">Here are the recommended supplements for this goal:</p>
+                    <div style="display: grid; gap: 15px;">
+            `;
+
+            data.supplements.forEach((supp, index) => {
+                const isSynergy = supp.synergy;
+                html += `
+                    <div style="background: ${isSynergy ? 'linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%)' : '#f8f9fa'}; 
+                                padding: 15px; 
+                                border-radius: 10px; 
+                                border-left: 4px solid ${isSynergy ? '#ff6b00' : '#667eea'};
+                                ${isSynergy ? 'border: 2px solid #ff6b00; box-shadow: 0 3px 10px rgba(255, 107, 0, 0.2);' : ''}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 15px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: ${isSynergy ? '#d45500' : '#667eea'}; display: flex; align-items: center; gap: 8px;">
+                                    ${isSynergy ? '<span style="background: #ff6b00; color: white; padding: 3px 10px; border-radius: 15px; font-size: 0.75em;">🔗 SYNERGY</span>' : ''}
+                                    <span>${index + 1}. ${supp.name}</span>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <span style="background: ${isSynergy ? '#2ecc71' : '#667eea'}; color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.9em; font-weight: 600;">
+                                        📊 ${supp.dosage}
+                                    </span>
+                                    <span style="margin-left: 10px; color: #666;">
+                                        🕐 ${supp.time}
+                                    </span>
+                                </div>
+                                <div style="color: #666; font-size: 0.95em; line-height: 1.5;">
+                                    ${supp.notes}
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="addSuggestedSupplement('${supp.name}', '${supp.dosage}', '${supp.time}', \`${supp.notes}\`)" 
+                                    style="white-space: nowrap; padding: 10px 20px; ${isSynergy ? 'background: #ff6b00;' : ''}">
+                                ➕ Add
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+                const synergicSupplements = data.supplements.filter(s => s.synergy);
+            if (synergicSupplements.length > 1) {
+                html += `
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn" onclick="addAllSynergicSupplements('${goal}')" 
+                                style="background: linear-gradient(135deg, #ff6b00 0%, #ff8800 100%); 
+                                       color: white; 
+                                       padding: 15px 30px; 
+                                       font-size: 1.1em;
+                                       font-weight: bold;
+                                       box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);">
+                            🔗 Add ALL synergistic supplements (${synergicSupplements.length})
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <strong>⚠️ Important note:</strong> These are general suggestions. Always consult a doctor before starting new supplements, especially if you have medical conditions or take medications.
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function addSuggestedSupplement(name, dosage, time, notes) {
+            data.supplements.push({
+                id: Date.now(),
+                name: name,
+                dosage: dosage,
+                time: time,
+                notes: notes,
+                completed: false
+            });
+
+            saveData();
+            renderSupplements();
+
+            const t = translations[currentLanguage];
+            alert(`✅ ${name} ${t.common.added} ${t.common.addedTo} of supplements!`);
+        }
+
+        function addAllSynergicSupplements(goal) {
+            const data_goal = supplementDatabase[goal];
+            const synergicSupplements = data_goal.supplements.filter(s => s.synergy);
+            
+            if (synergicSupplements.length === 0) return;
+            
+            let addedCount = 0;
+            synergicSupplements.forEach(supp => {
+                data.supplements.push({
+                    id: Date.now() + addedCount,
+                    name: supp.name,
+                    dosage: supp.dosage,
+                    time: supp.time,
+                    notes: supp.notes,
+                    completed: false
+                });
+                addedCount++;
+            });
+
+            saveData();
+            renderSupplements();
+
+            alert(`✅ Added ${addedCount} synergistic supplements to your list!\n\nRemember to take them together to maximize benefits.`);
+            
+            document.getElementById('supplementsList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderActivities() {
+            const list = document.getElementById('activitiesList');
+            
+            if (data.activities.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No activities planned. Start planning!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = data.activities.map(act => `
+                <div class="item ${act.completed ? 'completed' : ''}">
+                    <div class="checkbox-container">
+                        <input type="checkbox" ${act.completed ? 'checked' : ''} 
+                               onchange="toggleComplete('activities', ${act.id})">
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">${act.name}</div>
+                        <div class="item-details">
+                            ${act.time ? `🕒 ${act.time}` : ''} 
+                            ${act.duration ? `⏱️ ${act.duration} min` : ''}
+                            ${act.notes ? ` • ${act.notes}` : ''}
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="icon-btn" onclick="deleteItem('activities', ${act.id})" title="Delete">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGoals() {
+            const list = document.getElementById('goalsList');
+            
+            if (data.goals.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎯</div>
+                        <p>No goals set. Define your targets!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = data.goals.map(goal => `
+                <div class="goal-card">
+                    <div class="item-content">
+                        <div class="item-title">${goal.title}</div>
+                        <div class="item-details">
+                            <strong>${goal.type}</strong>
+                            ${goal.deadline ? ` • Deadline: ${new Date(goal.deadline).toLocaleDateString('en-US')}` : ''}
+                        </div>
+                        ${goal.description ? `<div class="item-details" style="margin-top: 10px;">${goal.description}</div>` : ''}
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${goal.progress}%"></div>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9em;">
+                            Progress: ${goal.progress}%
+                            <input type="range" min="0" max="100" value="${goal.progress}" 
+                                   onchange="updateProgress(${goal.id}, this.value)"
+                                   style="width: 100%; margin-top: 5px;">
+                        </div>
+                    </div>
+                    <div class="item-actions" style="margin-top: 15px;">
+                        <button class="btn btn-danger" onclick="deleteItem('goals', ${goal.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderOverview() {
+            const content = document.getElementById('overviewContent');
+            
+            let html = '<div style="display: grid; gap: 20px;">';
+            
+            const incompleteMeals = data.meals.filter(m => !m.completed);
+            if (incompleteMeals.length > 0) {
+                html += '<div><h4 style="color: #667eea; margin-bottom: 10px;">🍽️ Meals to eat</h4>';
+                incompleteMeals.forEach(meal => {
+                    html += `<div style="padding: 10px; background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;">
+                        <strong>${meal.time}:</strong> ${meal.name}
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            
+            const incompleteSupps = data.supplements.filter(s => !s.completed);
+            if (incompleteSupps.length > 0) {
+                html += '<div><h4 style="color: #667eea; margin-bottom: 10px;">💊 Supplements to take</h4>';
+                incompleteSupps.forEach(supp => {
+                    html += `<div style="padding: 10px; background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;">
+                        <strong>${supp.name}</strong> ${supp.dosage} - ${supp.time}
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            
+            const incompleteActs = data.activities.filter(a => !a.completed);
+            if (incompleteActs.length > 0) {
+                html += '<div><h4 style="color: #667eea; margin-bottom: 10px;">📋 Activities to complete</h4>';
+                incompleteActs.forEach(act => {
+                    html += `<div style="padding: 10px; background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;">
+                        <strong>${act.name}</strong> ${act.time ? `- ${act.time}` : ''}
+                    </div>`;
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            
+            if (incompleteMeals.length === 0 && incompleteSupps.length === 0 && incompleteActs.length === 0) {
+                html = '<div class="empty-state"><div class="empty-state-icon">✅</div><p>All done for today!</p></div>';
+            }
+            
+            content.innerHTML = html;
+        }
+
+        function toggleComplete(category, id) {
+            const item = data[category].find(item => item.id === id);
+            if (item) {
+                item.completed = !item.completed;
+                saveData();
+                
+                switch(category) {
+                    case 'meals': renderMeals(); break;
+                    case 'supplements': renderSupplements(); break;
+                    case 'activities': renderActivities(); break;
+                }
+            }
+        }
+
+        function updateProgress(id, value) {
+            const goal = data.goals.find(g => g.id === id);
+            if (goal) {
+                goal.progress = parseInt(value);
+                saveData();
+                renderGoals();
+            }
+        }
+
+        function deleteItem(category, id) {
+            const t = translations[currentLanguage];
+            if (confirm(t.common.confirm)) {
+                data[category] = data[category].filter(item => item.id !== id);
+                saveData();
+                
+                switch(category) {
+                    case 'meals': renderMeals(); break;
+                    case 'supplements': renderSupplements(); break;
+                    case 'activities': renderActivities(); break;
+                    case 'goals': renderGoals(); break;
+                }
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('statMeals').textContent = data.meals.length;
+            document.getElementById('statSupplements').textContent = data.supplements.length;
+            document.getElementById('statActivities').textContent = data.activities.length;
+            document.getElementById('statGoals').textContent = data.goals.length;
+        }
+
+        function renderAll() {
+            renderMeals();
+            renderSupplements();
+            renderActivities();
+            renderGoals();
+            updateStats();
+        }
+
+        updateDate();
+        loadData();
+        updateStats();
+
+    </script>
+</body>
+</html>
